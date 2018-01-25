@@ -1,0 +1,32 @@
+<template>
+  <div id="app">
+    <!-- <img src="./assets/images/QQ图片20171226182923.jpg"> -->
+    <tab></tab>
+  </div>
+</template>
+
+<script>
+import tab from './views/tab.vue'
+export default {
+  name: 'App',
+  components: {
+    'tab': tab
+  }
+}
+</script>
+
+<style>
+.icon {
+   width: 2em; height: 2em;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+</style>
