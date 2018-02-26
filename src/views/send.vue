@@ -1,21 +1,16 @@
 <template>
   <div>
       <h2>{{msg}}</h2>
-      <tab></tab>
   </div>
 </template>
 
 <script>
-import tab from './tab.vue'
 export default {
-  name: 'addressList',
+  name: 'send',
   data () {
     return {
-      msg: '通讯录'
+      msg: '发文'
     }
-  },
-  components: {
-    'tab': tab
   }
 }
 </script>

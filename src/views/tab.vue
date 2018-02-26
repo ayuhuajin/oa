@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="nav">
+      <!-- <router-link to="/login">login</router-link> -->
       <mt-tabbar >
         <mt-tab-item id="首页">
             <router-link to="/" tag="li">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-home"></use>
               </svg>
-              首页
+              <p>首页</p>
             </router-link>
         </mt-tab-item>
         <mt-tab-item id="待办">
@@ -15,7 +16,7 @@
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-daiban"></use>
               </svg>
-              待办
+              <p>待办</p>
             </router-link>
         </mt-tab-item>
         <mt-tab-item id="通讯录">
@@ -23,7 +24,7 @@
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-tongxunlu"></use>
               </svg>
-              通讯录
+              <p>通讯录</p>
             </router-link>
         </mt-tab-item>
         <mt-tab-item id="我的">
@@ -31,7 +32,7 @@
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-wode"></use>
               </svg>
-              我的
+              <p>我的</p>
             </router-link>
         </mt-tab-item>
       </mt-tabbar>
@@ -55,18 +56,26 @@ export default {
 <style lang="scss">
 .icon{display: block}
 .nav{
+    position: fixed;
+    bottom: 0;
+    width:100%;
     font-size: 12px;
-        h1{
-            font-size: 26px;
-            span{font-size: 12px;}
+    h1{
+      font-size: 26px;
+      span{
+        font-size: 12px;
+      }
     }
+    p{line-height: 1.2}
 }
 .mint-tab-item-label{
-  line-height: 40px;
   font-size: 14px;
 }
 .mint-tab-item{
-    padding:0;
+  padding:0;
+  li{
+    padding:5px 0;
+  }
 }
 h1, h2 {
     font-weight: normal;
@@ -77,6 +86,7 @@ ul {
 }
 li {
   display: inline-block;
+  width: 100%;
 }
 a {
   color: #42b983;
