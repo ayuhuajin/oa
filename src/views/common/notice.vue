@@ -1,97 +1,68 @@
 <template>
   <div id="app1">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <vue-tree
-            :tree-data="treeData"
-            v-model="ids"
-            :options="options"
-            @handle="handle"
-          />
-        </div>
-        <!-- <div class="col-md-6">
-          <p class="lead">设置</p>
-          <div class="form-group">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" v-model="options.checkbox"> 显示复选框
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" v-model="options.checkedOpen"> 已选择是否展开
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" v-model="options.folderBold"> 目录加粗
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" v-model="options.idsWithParent"> 复选是否包含目录
-              </label>
-            </div>
-          </div>
-          <div class="form-group">
-              <label>初始展开层级</label>
-              <input type="number" class="form-control" v-model="options.depthOpen" disabled>
-          </div>
-          <h3>Events</h3>
-          <p>单击节点名称触发<code>handle</code>事件</p>
-          <p v-for="item in message"><pre v-html="item"></pre></p>
-          <h3>Checked ids</h3>
-          <p>{{ids}}</p>
-          <h3>Options</h3>
-          <p>{{options}}</p>
-        </div> -->
-      </div>
-    </div>
+    <el-tree
+      :data="data2"
+      show-checkbox
+      node-key="id"
+      ref="tree"
+      :default-expanded-keys="[2, 3]"
+      :default-checked-keys="[5]"
+      :props="defaultProps">
+    </el-tree>
+    <el-button @click="getCheckedNodes">通过 node 获取</el-button>
+
+    <el-upload
+      class="upload-demo"
+      action="http://192.168.1.88:9900/cloudstorage/storage/upload"
+      :on-change="handleChange"
+      :file-list="fileList3">
+      <el-button size="small" type="primary">点击上传</el-button>
+      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+    </el-upload>
+    <vueSignature ref="signature" :sigOption="option" :w="'100%'" :h="'300px'"></vueSignature> 
+		<button @click="save">保存</button>
+		<button @click="clear">清除</button>
+    <img v-bind:src="png">
   </div>
 </template>
 
 <script>
+// import Vue from 'vue'
 import axios from 'axios'
-export default {
-  name: 'app1',
-  data: function () {
-    return {
-      ids: [4],
-      options: {
-        label: 'label',
-        checkbox: true,
-        checkedOpen: false,
-        folderBold: true,
-        idsWithParent: true,
-        depthOpen: 2,
-        openIcon: 'fa fa-angle-right',
-        closeIcon: 'fa fa-angle-down',
-        halfCheckedIcon: 'fa fa-minus-square-o fa-fw text-primary',
-        checkedIcon: 'fa fa-check-square-o fa-fw text-danger',
-        uncheckedIcon: 'fa fa-square-o fa-fw'
-      },
-      sj: '',
-      message: [],
-      treeData: ''
-    }
-  },
-  created:function() {
+// import {Tree, Button} from 'element-ui'
+// Vue.use(Tree)
+  export default {
+    name: 'app1',
+    data() {
+      return {
+        data2:'',
+        defaultProps: {
+          children: 'children',
+          label: 'label',
+        },
+        png: '',
+        kkk:'',
+        option:{
+          penColor:"rgb(0, 0, 0)"
+        }
+      }
+    },
+    created:function() {
     var _this = this
     var userid = localStorage.getItem("userid")
     axios.get('/apis/Department/GetTreeListJsonMobile?userId=fdf0dbec-82d6-442c-b0e4-be8dcfcafe0c', {}).then((response) => {
-      console.log('获取组织请求成功')
+      console.log('获取请求成功')
       var _this = this
-      _this.treeData = _this.getJsonTree(response.data.rows, '0')
-      console.log(_this.sj )
+      _this.data2 = _this.getJsonTree(response.data.rows, '0')
     }).catch((response) => {
-      console.log('获取组织请求失败')
+      console.log('获取请求失败')
     })
   },
 
   methods: {
-    handle (item) {
-      this.message.push(`节点 ${JSON.stringify(item)} 作为事件参数传递`)
+    getCheckedNodes() {
+      var arr = this.$refs.tree.getCheckedKeys()
+      console.log(arr)
     },
     getJsonTree: function(data, pId) {
       var itemArr=[];
@@ -104,10 +75,51 @@ export default {
         } 
       }
       return itemArr;
-    }
+    },
+    save(){
+      var _this = this;
+      setTimeout(function () {
+        console.log('878978978');
+        _this.png  = _this.$refs.signature.save();
+      },100);
+			// var jpeg = _this.$refs.signature.save('image/jpeg')
+			// var svg = _this.$refs.signature.save('image/svg+xml');
+			console.log('6666');
+			// console.log(jpeg)
+			// console.log(svg)
+		},
+		clear(){
+			var _this = this;
+			_this.$refs.signature.clear();
+		}
   }
-}
 
+  }
 </script>
+<style lang="scss" >
+  .el-icon-caret-right:before {
+    font-size:18px;
+  }
+  .el-checkbox__inner{
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+  }
+  .el-checkbox__input {
+    vertical-align: -webkit-baseline-middle;
+  }
+  .el-checkbox__inner::after{
+    height: 8px;
+    left: 7px;
+    top: 3px;
+  }
+  .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
+    top: 8px;
+  }
+  .el-tree-node__label {
+    margin-top: 1px;
+  }
+</style>
+
 
 

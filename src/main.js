@@ -10,8 +10,14 @@ import './assets/font/iconfont.css'
 import './assets/font/iconfont.js'
 import axios from 'axios'
 import Vuetree from 'vue-simple-tree'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import vueSignature from "vue-signature"
+
 // import store from '@/store/store'
 import { Indicator } from 'mint-ui'
+Vue.use(vueSignature)
+Vue.use(ElementUI)
 Vue.use(Vuetree)
 // 请求拦截
 axios.interceptors.request.use(function (config) {
