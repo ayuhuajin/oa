@@ -20,37 +20,36 @@
 
 <script>
 import Tree from 'vt-tree'
-import Vue from 'vue'
 export default {
   data () {
     return {
       msg1: '',
       sj: [
-          {
-            id: 1,
-            text: "一级1",
-            children:
-              [
-                {id: 11,text: "一级11" ,children: [{id:21,text:'dfsdf'},{id:22,text: '46466'}]},
-                {id: 12,text: "一级12" }
-              ]
-          },
-          {  
-            id: 2,
-            name: "一级2"
-          },
-          {  
-            id: 3,
-            name: "一级3"
-          }
+        {
+          id: 1,
+          text: '一级1',
+          children:
+            [
+              {id: 11, text: '一级11', children: [{id: 21, text: 'dfsdf'}, {id: 22, text: '46466'}]},
+              {id: 12, text: '一级12'}
+            ]
+        },
+        {
+          id: 2,
+          name: '一级2'
+        },
+        {
+          id: 3,
+          name: '一级3'
+        }
       ]
     }
   },
-  created:function () {
-    console.log(Tree.name);
+  created: function () {
+    console.log(Tree.name)
   },
-  components:{
-      "Tree":Tree
+  components: {
+    'Tree': Tree
   }
 }
 </script>
