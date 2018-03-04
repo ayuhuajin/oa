@@ -19,13 +19,15 @@ import { Indicator } from 'mint-ui'
 Vue.use(vueSignature)
 Vue.use(ElementUI)
 Vue.use(Vuetree)
+axios.defaults.baseURL = '/apis'
+// axios.defaults.baseURL = ''
 // 请求拦截
 axios.interceptors.request.use(function (config) {
   // 处理拦截
   // 设置记载状态
   // store.commit('setLoading', true)
   Indicator.open('Loading...')
-  console.log(JSON.stringify(config))
+  // console.log(JSON.stringify(config))
   return config
 }, function (error) {
   return Promise.reject(error)

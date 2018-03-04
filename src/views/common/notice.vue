@@ -13,8 +13,7 @@
     <el-upload
       class="upload-demo"
       action="apis/PublicInfoManage/ResourceFile/MobileUploadifyFile/"
-      :on-change="handleChange"
-      :file-list="fileList3">
+      >
       <el-button size="small" type="primary">点击上传</el-button>
       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
     </el-upload>
@@ -49,7 +48,7 @@ export default {
   created: function () {
     // var _this = this
     // var userid = localStorage.getItem('userid')
-    axios.get('/apis/Department/GetTreeListJsonMobile?userId=fdf0dbec-82d6-442c-b0e4-be8dcfcafe0c', {}).then((response) => {
+    axios.get('/Department/GetTreeListJsonMobile?userId=fdf0dbec-82d6-442c-b0e4-be8dcfcafe0c', {}).then((response) => {
       console.log('获取请求成功')
       var _this = this
       _this.data2 = _this.getJsonTree(response.data.rows, '0')
@@ -135,5 +134,17 @@ export default {
   .el-upload-list__item{
     border-top:1px solid #ddd;
     border-bottom:1px solid #ddd;
+  }
+  .el-upload-list__item .el-progress{
+    top:30px;
+  }
+  el-progress-bar__inner{
+    margin-top: 0;
+  }
+  .el-upload-list__item .el-icon-upload-success{
+     top:20px;
+  }
+  .el-upload-list__item:hover .el-icon-close{
+
   }
 </style>

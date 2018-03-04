@@ -6,7 +6,7 @@
       <div class="login">
           <input id="text" class="text" type="text" placeholder="请输入您的账号" v-model="userName" >
           <input id="password" class="password" type="password" placeholder="请输入您的密码" v-model="password">
-          <div class="load" @click="login">登录1</div>
+          <div class="load" @click="login">登录</div>
           <!-- <div class="load" @click="getList">getList</div> -->
       </div>
   </div>
@@ -32,7 +32,7 @@ export default {
       var _this = this
       _this.openid = _this.GetQueryString(name)
       _this.password = md5(_this.password)
-      axios.post('/apis/Login/MobileCheckLogin', qs.stringify({
+      axios.post('/Login/MobileCheckLogin', qs.stringify({
         username: _this.userName,
         password: _this.password,
         openid: _this.openid
