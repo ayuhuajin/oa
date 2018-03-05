@@ -66,7 +66,7 @@ export default {
         font-size: 12px;
       }
     }
-    p{line-height: 1.2}
+    p{line-height: 1.2;color: #409EFF;}
 }
 .mint-tab-item-label{
   font-size: 14px;

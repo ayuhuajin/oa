@@ -22,8 +22,8 @@
             <p><span class="vm">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:</span><input v-bind:class="{ 'color-active':isA}" class="vm" type="text" name="" v-model="list.Email" v-bind:disabled="isable"></p>
         </li>
         <li class="">
-            <a class="more" href="javascript:;">更多信息</a>
-            <div class="content">
+            <a class="more" href="javascript:;" @click="toggle">更多信息 <img class="angle" v-bind:class="{'togglec':togglec}" src="../../assets/images/angle.png"></a>
+            <div class="content" v-show="isShow">
                 <p><span class="vm">社会职务:</span><input v-bind:class="{ 'color-active':isA}" class="vm" type="text" name="" v-model="list.Societypost" v-bind:disabled="isable"></p>
                 <p><span class="vm">支部:</span><input v-bind:class="{ 'color-active':isA}" class="vm" type="text" name="" v-model="list.Branch" v-bind:disabled="isable"></p>
                 <p><span class="vm">退休:</span><input v-bind:class="{ 'color-active':isA}" class="vm" type="text" name="" v-model="list.Retire" v-bind:disabled="isable"></p>
@@ -130,6 +130,7 @@ export default {
   data () {
     return {
       msg: '通讯录',
+      more: '更多信息',
       list: {},
       keyValue: '',
       allLoaded: false,
@@ -137,7 +138,9 @@ export default {
       centain: false,
       btnShow: '修改',
       isA: false,
-      isable: true
+      isable: true,
+      isShow: false,
+      togglec: false
     }
   },
   created: function () {
@@ -152,6 +155,10 @@ export default {
     })
   },
   methods: {
+    toggle: function () {
+      this.isShow = !this.isShow
+      this.togglec = !this.togglec
+    },
     up: function () {
       this.centain = !this.centain
       this.modify = !this.modify
@@ -227,8 +234,21 @@ export default {
     background: #fff;
 }
 .more{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 15px;
   width:100%;
   line-height: 40px;
   padding-left: 3%;
+  background: #f5f5f5;
+}
+.angle{
+  transform: rotate(90deg);
+  width: 7px;
+  height: 18px;
+}
+.togglec{
+  transform: rotate(-90deg);
 }
 </style>

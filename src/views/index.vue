@@ -47,11 +47,11 @@
     <section class="depart">
       <h3 class="title">宣传部</h3>
       <ul class="action-list">
-        <router-link to="./send" tag="li">
+        <router-link to="./mail" tag="li">
           <img src="../assets/images/icon01.png">
           <p>盟讯邮寄列表</p>
         </router-link>
-        <router-link to="./send" tag="li">
+        <router-link to="./mail" tag="li">
           <img src="../assets/images/icon01.png">
           <p>约稿</p>
         </router-link>
@@ -111,7 +111,7 @@ export default {
       padding: 10px 0;
       text-align: center;
       img{height: .9rem;}
-      p{margin-top:5px;font-size: 12px;color:#007aff}
+      p{margin-top:5px;font-size: 12px;color:#409EFF;}
     }
 }
 </style>

@@ -16,6 +16,7 @@ import message from '@/views/common/message'
 import notice from '@/views/common/notice'
 import ally from '@/views/organization/ally'
 import allyDetail from '@/views/organization/ally-detail'
+import mail from '@/views/propagate/mail'
 import 'mint-ui/lib/style.css'
 
 Vue.use(Router)
@@ -132,6 +133,14 @@ const router = new Router({
       path: '/ally',
       name: 'ally',
       component: ally,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/mail',
+      name: 'mail',
+      component: mail,
       meta: {
         requireAuth: true
       }
