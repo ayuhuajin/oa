@@ -4,9 +4,6 @@
         <router-link to="/" slot="left">
           <mt-button icon="back">返回</mt-button>
         </router-link>
-        <router-link to="/message" slot="right">
-          <mt-button >创建</mt-button>
-        </router-link>
       </mt-header>
       <mt-loadmore  v-infinite-scroll="loadMore"
                     infinite-scroll-disabled="loading"
@@ -22,6 +19,7 @@
           </li>
         </ul>
       </mt-loadmore>
+      <tab></tab>
   </div>
 </template>
 
@@ -86,5 +84,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  ul{
+    padding:40px 0 55px;
+  }
 </style>

@@ -11,8 +11,11 @@ import tab from '@/views/tab'
 import login from '@/views/login'
 import send from '@/views/send'
 import messageList from '@/views/common/message-list'
+import messageDetail from '@/views/common/message-detail'
 import message from '@/views/common/message'
 import notice from '@/views/common/notice'
+import ally from '@/views/organization/ally'
+import allyDetail from '@/views/organization/ally-detail'
 import 'mint-ui/lib/style.css'
 
 Vue.use(Router)
@@ -94,6 +97,14 @@ const router = new Router({
       }
     },
     {
+      path: '/message-detail',
+      name: 'messageDetail',
+      component: messageDetail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
       path: '/message',
       name: 'message',
       component: message,
@@ -105,6 +116,22 @@ const router = new Router({
       path: '/notice',
       name: 'notice',
       component: notice,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/ally-detail',
+      name: 'allyDetail',
+      component: allyDetail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/ally',
+      name: 'ally',
+      component: ally,
       meta: {
         requireAuth: true
       }

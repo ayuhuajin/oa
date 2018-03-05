@@ -25,7 +25,7 @@
     <section class="depart">
       <h3 class="title">组织部</h3>
       <ul class="action-list">
-        <router-link to="./send" tag="li">
+        <router-link to="./ally" tag="li">
           <img src="../assets/images/icon01.png">
           <p>盟员信息管理</p>
         </router-link>
@@ -93,6 +93,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.body{
+  padding-bottom: 35px;
+}
 .depart{background: white;margin-bottom: 20px;}
 .title{padding-left: 20px;line-height:36px;border-bottom: 1px solid #ddd;border-top: 1px solid #ddd;color:#333;font-weight: bold;}
 .action-list{
