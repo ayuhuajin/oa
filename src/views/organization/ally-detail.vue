@@ -8,7 +8,6 @@
         <mt-button v-if="modify" @click="up1">修改</mt-button>
         <mt-button v-if="centain" @click="up">提交</mt-button>
       </router-link>
-
     </mt-header>
     <ul v-bind:class="{ 'color-active':isA}">
         <li class="base">
@@ -241,6 +240,7 @@ export default {
   width:100%;
   line-height: 40px;
   padding-left: 3%;
+  color: #409EFF;
   background: #f5f5f5;
 }
 .angle{

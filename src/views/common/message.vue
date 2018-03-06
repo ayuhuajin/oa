@@ -54,21 +54,7 @@ export default {
 }
 </script>
 
-<style >
-  h3{font-size: 16px;margin-top: 30px;margin-left: 5%;}
-  textarea{width: 90%;height:200px;margin-left: 5%;}
-  .item {
-    cursor: pointer;
-}
-
-.bold {
-    font-weight: bold;
-}
-ul {
-    padding-left: 1em;
-    line-height: 1.5em;
-    list-style-type: dot;
-}
+<style>
 .tree__item--noChild {
     padding-left: 16px;
 }
@@ -82,5 +68,21 @@ ul {
 .tree__opened--status {
     width: 17px;
     display: inline-block;
+}
+</style>
+
+<style scoped>
+  h3{font-size: 16px;margin-top: 30px;margin-left: 5%;}
+  textarea{width: 90%;height:200px;margin-left: 5%;}
+  .item {
+    cursor: pointer;
+}
+.bold {
+    font-weight: bold;
+}
+ul {
+    padding-left: 1em;
+    line-height: 1.5em;
+    list-style-type: dot;
 }
 </style>

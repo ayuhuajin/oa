@@ -13,10 +13,15 @@ import send from '@/views/send'
 import messageList from '@/views/common/message-list'
 import messageDetail from '@/views/common/message-detail'
 import message from '@/views/common/message'
+import noticeList from '@/views/common/notice-list'
+import noticeDetail from '@/views/common/notice-detail'
 import notice from '@/views/common/notice'
+import notice3 from '@/views/common/notice3'
 import ally from '@/views/organization/ally'
 import allyDetail from '@/views/organization/ally-detail'
 import mail from '@/views/propagate/mail'
+import scoreList from '@/views/propagate/score-list'
+import score from '@/views/propagate/score'
 import 'mint-ui/lib/style.css'
 
 Vue.use(Router)
@@ -24,7 +29,7 @@ Vue.use(MintUI)
 
 const router = new Router({
   mode: 'history',
-  base: '/Mobilev2/dist/',
+  // base: '/Mobilev2/dist/',
   routes: [
     {
       path: '*',
@@ -114,9 +119,33 @@ const router = new Router({
       }
     },
     {
+      path: '/notice-list',
+      name: 'noticeList',
+      component: noticeList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/notice-detail',
+      name: 'noticeDetail',
+      component: noticeDetail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
       path: '/notice',
       name: 'notice',
       component: notice,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/notice3',
+      name: 'notice3',
+      component: notice3,
       meta: {
         requireAuth: true
       }
@@ -141,6 +170,22 @@ const router = new Router({
       path: '/mail',
       name: 'mail',
       component: mail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/score-list',
+      name: 'scoreList',
+      component: scoreList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/score',
+      name: 'score',
+      component: score,
       meta: {
         requireAuth: true
       }

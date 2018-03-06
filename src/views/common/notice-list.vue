@@ -1,8 +1,11 @@
 <template>
   <div>
-      <mt-header fixed title="通讯录">
+      <mt-header fixed title="通知公告">
         <router-link to="/" slot="left">
           <mt-button icon="back">返回</mt-button>
+        </router-link>
+        <router-link to="/notice" slot="right">
+          <mt-button >创建</mt-button>
         </router-link>
       </mt-header>
       <mt-loadmore  v-infinite-scroll="loadMore"
@@ -14,17 +17,21 @@
                     :auto-fill="true"
                     ref="loadmore">
         <ul>
-          <li v-for="(item, index) in list" v-bind:key="item.id" v-if="index < limit">
-            <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell>
-          </li>
+          <router-link tag="li" :to="{name:'noticeDetail', params:{keyValue:item.NewsId}}" v-for="(item, index) in list" v-bind:key="index">
+            <div class="noticewrap">
+              <div>
+                <div class="title">{{item.FullHead}}</div>
+                <div>{{item.NewsContent}}</div>
+              </div>
+              <div>{{item.ReleaseTime}}</div>
+            </div>
+          </router-link>
         </ul>
       </mt-loadmore>
-      <tab></tab>
   </div>
 </template>
 
 <script>
-import tab from './tab.vue'
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
 export default {
@@ -40,12 +47,13 @@ export default {
   },
   created: function () {
     var _this = this
-    axios.get('/BaseManage/User/UserListMobile', {}).then((response) => {
-      console.log('通讯录请求成功')
-      _this.list = response.data
+    var pageNum = 1
+    axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=30&page=' + pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
+      console.log('信息列表请求成功')
+      _this.list = response.data.rows
     }).catch((response) => {
       Indicator.close()
-      console.log('通讯录请求失败')
+      console.log('信息列表请求失败')
     })
   },
   methods: {
@@ -66,24 +74,33 @@ export default {
     loadMore () {
       this.loading = true
       setTimeout(() => {
-        // let last = this.list[this.list.length - 1]
-        // for (let i = 1; i <= 10; i++) {
-        //   this.list.push(this.limit + i)
-        //   this.loadBottom()
-        // }
         this.loadBottom()
         this.loading = false
       }, 30)
     }
-  },
-  components: {
-    'tab': tab
   }
 }
 </script>
-
+<style>
+  .mint-cell-allow-right::after{
+    width: 12px;
+    height: 12px;
+  }
+</style>
 <style scoped>
   ul{
     padding:40px 0 55px;
+  }
+  .noticewrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px 10px;
+    color: #8f8f94;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .title{
+    font-size: 18px;
+    color:#333;
   }
 </style>

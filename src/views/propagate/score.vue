@@ -1,6 +1,6 @@
 <template>
   <div>
-      <mt-header fixed title="通讯录">
+      <mt-header fixed title="盟讯邮寄列表">
         <router-link to="/" slot="left">
           <mt-button icon="back">返回</mt-button>
         </router-link>
@@ -19,12 +19,10 @@
           </li>
         </ul>
       </mt-loadmore>
-      <tab></tab>
   </div>
 </template>
 
 <script>
-import tab from './tab.vue'
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
 export default {
@@ -40,12 +38,13 @@ export default {
   },
   created: function () {
     var _this = this
-    axios.get('/BaseManage/User/UserListMobile', {}).then((response) => {
-      console.log('通讯录请求成功')
+    var userid = localStorage.getItem('userid')
+    axios.get('/BaseManage/User/MobileEmailUserList?UserId=' + userid + '', {}).then((response) => {
+      console.log('信息列表请求成功')
       _this.list = response.data
     }).catch((response) => {
       Indicator.close()
-      console.log('通讯录请求失败')
+      console.log('信息列表请求失败')
     })
   },
   methods: {
@@ -66,22 +65,15 @@ export default {
     loadMore () {
       this.loading = true
       setTimeout(() => {
-        // let last = this.list[this.list.length - 1]
-        // for (let i = 1; i <= 10; i++) {
-        //   this.list.push(this.limit + i)
-        //   this.loadBottom()
-        // }
         this.loadBottom()
         this.loading = false
       }, 30)
     }
-  },
-  components: {
-    'tab': tab
   }
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   ul{
     padding:40px 0 55px;

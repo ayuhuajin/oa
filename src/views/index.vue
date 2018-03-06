@@ -12,7 +12,7 @@
           <img src="../assets/images/icon01.png">
           <p>活动会议组织</p>
         </router-link>
-        <router-link to="./notice" tag="li">
+        <router-link to="./notice-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>通知公告</p>
         </router-link>
@@ -51,11 +51,11 @@
           <img src="../assets/images/icon01.png">
           <p>盟讯邮寄列表</p>
         </router-link>
-        <router-link to="./mail" tag="li">
+        <router-link to="./notice3" tag="li">
           <img src="../assets/images/icon01.png">
           <p>约稿</p>
         </router-link>
-        <router-link to="./send" tag="li">
+        <router-link to="./score-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>评分系统</p>
         </router-link>
@@ -95,6 +95,7 @@ export default {
 <style lang="scss" scoped>
 .body{
   padding-bottom: 35px;
+  background: #f5f5f5;
 }
 .depart{background: white;margin-bottom: 20px;}
 .title{padding-left: 20px;line-height:36px;border-bottom: 1px solid #ddd;border-top: 1px solid #ddd;color:#333;font-weight: bold;}

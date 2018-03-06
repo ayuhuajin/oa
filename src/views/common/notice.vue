@@ -1,150 +1,143 @@
 <template>
-  <div id="app1">
-    <el-tree
-      :data="data2"
-      show-checkbox
-      node-key="id"
-      ref="tree"
-      :default-expanded-keys="[2, 3]"
-      :default-checked-keys="[5]"
-      :props="defaultProps">
-    </el-tree>
-    <el-button @click="getCheckedNodes">通过 key 获取</el-button>
-    <el-upload
-      class="upload-demo"
-      action="apis/PublicInfoManage/ResourceFile/MobileUploadifyFile/"
-      >
-      <el-button size="small" type="primary">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-    </el-upload>
-    <vueSignature ref="signature" :sigOption="option" :w="'100%'" :h="'200px'"></vueSignature>
-    <img v-bind:src="png">
-    <button @click="save">签名</button>
-    <button @click="clear">清除</button>
-    <button @click="clear">上传签名</button>
+  <div>
+    <div style="width:100%;height:40px;"></div>
+    <mt-header fixed title="通知公告">
+      <router-link to="/notice-list" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+      <router-link to="/message" slot="right">
+        <mt-button @click="submit">提交</mt-button>
+      </router-link>
+    </mt-header>
+    <div class="wrap">
+      <input class="title" v-model="title" placeholder="请输入公告标题"/>
+      <textarea class="content" placeholder="请输入公告内容"></textarea>
+      <div class="upload">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          :auto-upload="false"
+          :file-list="fileList"
+          action="apis/PublicInfoManage/ResourceFile/MobileUploadifyFile/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          >
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <div slot="tip" class="el-upload__tip"  @click="submitUpload">文件不能超过5MB</div>
+        </el-upload>
+        <!-- <div @click="submitUpload" style="margin-top:30px;"> shang1</div> -->
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import Vue from 'vue'
-import axios from 'axios'
-// import {Tree, Button} from 'element-ui'
-// Vue.use(Tree)
 export default {
-  name: 'app1',
   data () {
     return {
-      data2: [],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      },
-      png: '',
-      option: {
-        penColor: 'rgb(0, 0, 0)'
-      }
+      title: '',
+      content: '',
+      fileList: []
     }
   },
   created: function () {
-    // var _this = this
-    // var userid = localStorage.getItem('userid')
-    axios.get('/Department/GetTreeListJsonMobile?userId=fdf0dbec-82d6-442c-b0e4-be8dcfcafe0c', {}).then((response) => {
-      console.log('获取请求成功')
-      var _this = this
-      _this.data2 = _this.getJsonTree(response.data.rows, '0')
-    }).catch((response) => {
-      console.log('获取请求失败')
-    })
+    console.log(111)
   },
-
   methods: {
-    // element tree 组件
-    getCheckedNodes () {
-      var arr = this.$refs.tree.getCheckedKeys()
-      console.log(arr)
+    submit: function () {
+      console.log('上传')
     },
-    getJsonTree: function (data, pId) {
-      var itemArr = []
-      for (var i = 0; i < data.length; i++) {
-        var node = data[i]
-        // data.splice(i, 1)
-        if (node.pId === pId) {
-          var newNode = {children: this.getJsonTree(data, node.id), id: node.id, label: node.name}
-          itemArr.push(newNode)
-        }
-      }
-      return itemArr
+    submitUpload () {
+      this.$refs.upload.submit()
     },
-    // base64 上传组件
-    save () {
-      var _this = this
-      setTimeout(function () {
-        console.log('878978978')
-        _this.png = _this.$refs.signature.save()
-      }, 30)
-      // var jpeg = _this.$refs.signature.save('image/jpeg')
-      // var svg = _this.$refs.signature.save('image/svg+xml');
-      console.log('6666')
-      // console.log(jpeg)
-      // console.log(svg)
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
     },
-    clear () {
-      var _this = this
-      _this.$refs.signature.clear()
+    handlePreview (file) {
+      console.log(file)
     }
   }
-
 }
 </script>
-<style lang="scss" >
-// element树形样式
-  .el-icon-caret-right:before {
-    font-size:18px;
-  }
-  .el-checkbox__inner{
-    width: 20px;
-    height: 20px;
-    margin-top: 5px;
-  }
-  .el-checkbox__input {
-    vertical-align: -webkit-baseline-middle;
-  }
-  .el-checkbox__inner::after{
-    height: 8px;
-    left: 7px;
-    top: 3px;
-  }
-  .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
-    top: 8px;
-  }
-  .el-tree-node__label {
-    margin-top: 1px;
-  }
-// element 上传样式
-  .el-upload-list__item-name{
-    line-height: 40px;
-    font-size: 16px;
-  }
-  .el-icon-circle-check:before,.el-icon-close:before {
-    font-size: 18px;
-  }
-  .el-upload-list__item-status-label,.el-upload-list__item .el-icon-close{
-    top: 10px;
-  }
-  .el-upload-list__item{
-    border-top:1px solid #ddd;
-    border-bottom:1px solid #ddd;
-  }
-  .el-upload-list__item .el-progress{
-    top:30px;
-  }
-  el-progress-bar__inner{
-    margin-top: 0;
-  }
-  .el-upload-list__item .el-icon-upload-success{
-     top:20px;
-  }
-  .el-upload-list__item:hover .el-icon-close{
+<style>
+.el-upload-list {
+    margin: 0;
+    padding: 20px 0;
+    list-style: none;
+    background: white;
+}
+.el-upload__tip,.el-button{
+  margin-left: 15px;
+}
+.el-button{
+  margin-top: 15px;
+}
+.el-upload-list__item .el-icon-close{
+  display: inline;
+}
+.el-upload-list__item.is-success .el-icon-close{
+  display: none;
+}
+.el-upload-list__item-name{
+  line-height: 40px;
+  font-size: 16px;
+}
+.el-icon-circle-check:before,.el-icon-close:before {
+  font-size: 18px;
+}
 
-  }
+.el-upload-list__item-status-label,.el-upload-list__item .el-icon-close{
+  top: 10px;
+}
+.el-upload-list__item{
+  border-top:1px solid #ddd;
+  border-bottom:1px solid #ddd;
+}
+.el-upload-list__item .el-progress{
+  top:30px;
+}
+.el-progress_text{
+  color: red;
+}
+.el-upload-list__item .el-progress__text {
+    position: absolute;
+    right: 25px;
+    top: -15px;
+}
+.el-progress-bar__inner{
+  margin-top: 0;
+}
+.el-upload-list__item .el-icon-upload-success{
+    top:20px;
+}
+.el-icon-close-tip{
+  display: none;
+}
+</style>
+
+<style scoped>
+.upload{
+  margin-top:15px;
+  background:white;
+}
+.wrap{
+  padding:10px 0 20px;
+  background: #f5f5f5;
+}
+.title{
+  width: 100%;
+  padding-left: 3%;
+  line-height: 45px;
+  background: white;
+  border:none;
+}
+.content{
+  width: 100%;
+  min-height: 200px;
+  margin-top: 20px;
+  padding-left: 3%;
+  padding-top: 3%;
+  border:none;
+}
 </style>
