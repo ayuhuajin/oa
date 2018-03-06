@@ -56,6 +56,9 @@ export default {
       console.log('信息列表请求失败')
     })
   },
+  mounted () {
+    console.log('6666666666')
+  },
   methods: {
     loadTop () {
       // 加载更多数据

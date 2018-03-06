@@ -60,6 +60,9 @@ export default {
       console.log('通讯录请求失败')
     })
   },
+  mounted () {
+    console.log('6666666666')
+  },
   methods: {
     loadTop () {
       // 加载更多数据
