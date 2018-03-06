@@ -1,6 +1,6 @@
 <template>
   <div>
-      <mt-header fixed title="信息列表">
+      <mt-header fixed title="短信群发">
         <router-link to="/" slot="left">
           <mt-button icon="back">返回</mt-button>
         </router-link>
@@ -94,6 +94,12 @@ export default {
   }
 }
 </script>
+<style>
+  .mint-cell-wrapper{
+    border-bottom:1px solid #ddd;
+  }
+</style>
+
 <style scoped>
   ul{
     padding:40px 0;

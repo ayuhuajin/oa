@@ -15,7 +15,19 @@
                     ref="loadmore">
         <ul>
           <router-link tag="li" :to="{name: 'allyDetail',params:{keyValue:item.UserID}}" v-for="(item, index) in list" v-bind:key="item.id" v-if="index < limit">
-            <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell>
+            <!-- <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell> -->
+            <div class="wrap">
+              <div>
+                <div class="title">{{item.UserName}}</div>
+                <div v-if="item.Mobile">{{item.Mobile}}</div>
+                <div v-else>{{phone}}</div>
+                <!-- <p v-if="">
+                  <span style="color: green">{{item.Mobile}}</span>
+                </p>
+                <div>{{(item.Mobile == null) ? (item.Mobile) : msg }}</div> -->
+              </div>
+              <div>{{item.DepartmentName}}</div>
+            </div>
           </router-link>
         </ul>
       </mt-loadmore>
@@ -28,7 +40,7 @@ import { Indicator } from 'mint-ui'
 export default {
   data () {
     return {
-      msg: '通讯录',
+      phone: '暂无',
       list: '',
       keyValue: '',
       allLoaded: false,
@@ -80,5 +92,17 @@ export default {
 <style scoped>
   ul{
     padding:40px 0 55px;
+  }
+  .wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 10px 10px;
+  color: #8f8f94;
+  border-bottom: 1px solid #f5f5f5;
+  }
+  .title{
+    font-size: 18px;
+    color:#333;
   }
 </style>

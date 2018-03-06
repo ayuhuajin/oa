@@ -236,7 +236,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 15px;
+  padding-right: 25px;
   width:100%;
   line-height: 40px;
   padding-left: 3%;

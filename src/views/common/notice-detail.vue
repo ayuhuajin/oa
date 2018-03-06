@@ -41,5 +41,5 @@ export default {
 </script>
 <style scoped>
   h3{font-size: 16px;margin: 30px 0 20px ;text-align: center;}
-  textarea{width: 90%;min-height:200px;margin-left: 5%;padding-left: 15px;padding-top: 10px;}
+  textarea{width: 96%;min-height:200px;margin-left: 2%;padding-left: 15px;padding-top: 10px;}
 </style>

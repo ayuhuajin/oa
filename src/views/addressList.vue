@@ -20,11 +20,7 @@
               <div>
                 <div class="title">{{item.UserName}}</div>
                 <div v-if="item.Mobile">{{item.Mobile}}</div>
-                <div v-else>{{msg}}</div>
-                <!-- <p v-if="">
-                  <span style="color: green">{{item.Mobile}}</span>
-                </p>
-                <div>{{(item.Mobile == null) ? (item.Mobile) : msg }}</div> -->
+                <div v-else>{{phone}}</div>
               </div>
               <div>{{item.DepartmentName}}</div>
             </div>
@@ -43,7 +39,7 @@ export default {
   name: 'addressList',
   data () {
     return {
-      msg: '通讯录',
+      phone: '暂无',
       list: '',
       keyValue: '',
       allLoaded: false,

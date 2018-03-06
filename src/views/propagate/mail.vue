@@ -15,7 +15,18 @@
                     ref="loadmore">
         <ul>
           <li v-for="(item, index) in list" v-bind:key="item.id" v-if="index < limit">
-            <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell>
+            <!-- <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell> -->
+            <div class="wrap">
+              <div>
+                <div class="title"  @click="toggle(index)">{{item.UserName}}
+                  <img class="angle" v-bind:class="{'togglec':togglec}" src="../../assets/images/angle.png">
+                </div>
+                <div>
+                  <div>{{item.Mobile}}</div>
+                  <div>{{item.DepartmentName}}</div>
+                </div>
+              </div>
+            </div>
           </li>
         </ul>
       </mt-loadmore>
@@ -29,11 +40,12 @@ export default {
   name: 'addressList',
   data () {
     return {
-      msg: '通讯录',
+      phone: '暂无',
       list: '',
       keyValue: '',
       allLoaded: false,
-      limit: 30
+      limit: 30,
+      togglec: true
     }
   },
   created: function () {
@@ -48,6 +60,9 @@ export default {
     })
   },
   methods: {
+    toggle: function (index) {
+      this.togglec = !this.togglec
+    },
     loadTop () {
       // 加载更多数据
       this.$refs.loadmore.onTopLoaded()
@@ -73,9 +88,28 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   ul{
     padding:40px 0 55px;
   }
+  .wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+  color: #8f8f94;
+  border-bottom: 1px solid #f5f5f5;
+  }
+  .title{
+    font-size: 18px;
+    color:#333;
+  }
+  .angle{
+  transform: rotate(90deg);
+  width: 7px;
+  height: 18px;
+}
+.togglec{
+  transform: rotate(-90deg);
+}
 </style>
