@@ -5,13 +5,13 @@
       <router-link to="/notice-list" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
-      <router-link to="/message" slot="right">
+      <router-link to="" slot="right">
         <mt-button @click="submit">提交</mt-button>
       </router-link>
     </mt-header>
     <div class="wrap">
       <input class="title" v-model="title" placeholder="请输入公告标题"/>
-      <textarea class="content" placeholder="请输入公告内容"></textarea>
+      <textarea class="content" v-model="content" placeholder="请输入公告内容"></textarea>
       <div class="upload">
         <el-upload
           class="upload-demo"
@@ -33,11 +33,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+import qs from 'qs'
 export default {
   data () {
     return {
       title: '',
       content: '',
+      time: '2017-10-10',
+      FileIds: '',
       fileList: []
     }
   },
@@ -46,7 +50,17 @@ export default {
   },
   methods: {
     submit: function () {
-      console.log('上传')
+      var _this = this
+      axios.post('/PublicInfoManage/Notice/SaveForm/?keyValue=', qs.stringify({
+        FullHead: _this.title,
+        NewsContent: _this.content,
+        FileIds: _this.FileIds,
+        ReLeaseTime: _this.time
+      }), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then((response) => {
+        alert(111)
+      }).catch((resopnse) => {
+        alert(222)
+      })
     },
     submitUpload () {
       this.$refs.upload.submit()
@@ -62,10 +76,10 @@ export default {
 </script>
 <style>
 .el-upload-list {
-    margin: 0;
-    padding: 20px 0;
-    list-style: none;
-    background: white;
+  margin: 0;
+  padding: 20px 0;
+  list-style: none;
+  background: white;
 }
 .el-upload__tip,.el-button{
   margin-left: 15px;
@@ -101,15 +115,15 @@ export default {
   color: red;
 }
 .el-upload-list__item .el-progress__text {
-    position: absolute;
-    right: 25px;
-    top: -15px;
+  position: absolute;
+  right: 25px;
+  top: -15px;
 }
 .el-progress-bar__inner{
   margin-top: 0;
 }
 .el-upload-list__item .el-icon-upload-success{
-    top:20px;
+  top:20px;
 }
 .el-icon-close-tip{
   display: none;

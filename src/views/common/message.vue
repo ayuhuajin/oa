@@ -13,63 +13,21 @@
       <h3>短信群发</h3>
       <textarea placeholder="请输入短信内容" v-model="msg1"></textarea>
     </div>
-    <Tree v-bind:data="sj" v-bind:checkbox="true">
-    </Tree>
   </div>
 </template>
 
 <script>
-import Tree from 'vt-tree'
 export default {
   data () {
     return {
-      msg1: '',
-      sj: [
-        {
-          id: 1,
-          text: '一级1',
-          children:
-            [
-              {id: 11, text: '一级11', children: [{id: 21, text: 'dfsdf'}, {id: 22, text: '46466'}]},
-              {id: 12, text: '一级12'}
-            ]
-        },
-        {
-          id: 2,
-          name: '一级2'
-        },
-        {
-          id: 3,
-          name: '一级3'
-        }
-      ]
+      msg1: ''
     }
   },
   created: function () {
-    console.log(Tree.name)
-  },
-  components: {
-    'Tree': Tree
+    console.log(111)
   }
 }
 </script>
-
-<style>
-.tree__item--noChild {
-    padding-left: 16px;
-}
-.tree__checkbox {
-    width: 16px;
-    height: 16px;
-    position: relative;
-    top: -1px;
-    margin: 0;
-}
-.tree__opened--status {
-    width: 17px;
-    display: inline-block;
-}
-</style>
 
 <style scoped>
   h3{font-size: 16px;margin-top: 30px;margin-left: 5%;}
