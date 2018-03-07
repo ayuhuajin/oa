@@ -1,5 +1,6 @@
 <template>
-  <div style="height:100vh;overflow: scroll;">
+<!-- <div style="height:100vh;overflow: scroll;"> -->
+  <div>
       <mt-header fixed title="通知公告">
         <router-link to="/" slot="left">
           <mt-button icon="back">返回</mt-button>
@@ -51,8 +52,9 @@ export default {
   methods: {
     init () {
       var _this = this
-      axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=10&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
+      axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=3&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
         console.log('信息列表请求成功')
+        _this.pageNum = _this.pageNum + 1
         _this.list = response.data.rows
       }).catch((response) => {
         Indicator.close()
@@ -69,16 +71,18 @@ export default {
       console.log(this.list.length)
       var _this = this
       setTimeout(() => {
-        _this.pageNum = _this.pageNum + 1
+        
         _this.init()
-        let lastValue = _this.list[_this.list.length - 1]
-        if (_this.list.length === 8) {
-          for (let i = 1; i <= 8; i++) {
-            _this.list.push(lastValue)
-          }
-        } else {
-          _this.allLoaded = false
-        }
+         _this.list =  _this.list.concat(_this.list)
+        // let lastValue = _this.list[_this.list.length - 1]
+        
+        // if (_this.list.length === 8) {
+        //   for (let i = 1; i <= 8; i++) {
+        //     _this.list.push(lastValue+i)
+        //   }
+        // } else {
+        //   _this.allLoaded = false
+        // }
         _this.$refs.loadmore.onBottomLoaded()
       }, 1000)
     }
