@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:100vh;overflow: scroll;">
       <mt-header fixed title="通知公告">
         <router-link to="/" slot="left">
           <mt-button icon="back">返回</mt-button>
@@ -8,10 +8,8 @@
           <mt-button >创建</mt-button>
         </router-link>
       </mt-header>
-      <mt-loadmore  v-infinite-scroll="loadMore"
-                    infinite-scroll-disabled="loading"
-                    infinite-scroll-distance="9"
-                    :top-method="loadTop"
+
+      <mt-loadmore  :top-method="loadTop"
                     :bottom-method="loadBottom"
                     :bottom-all-loaded="allLoaded"
                     :auto-fill="true"
@@ -39,47 +37,50 @@ export default {
   data () {
     return {
       msg: '通讯录',
-      list: '',
+      list: [],
       keyValue: '',
       allLoaded: false,
-      limit: 30
+      pageNum: 1
     }
   },
   created: function () {
-    var _this = this
-    var pageNum = 1
-    axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=30&page=' + pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
-      console.log('信息列表请求成功')
-      _this.list = response.data.rows
-    }).catch((response) => {
-      Indicator.close()
-      console.log('信息列表请求失败')
-    })
   },
   mounted () {
-    console.log('6666666666')
+    this.init()
   },
   methods: {
+    init () {
+      var _this = this
+      axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=10&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
+        console.log('信息列表请求成功')
+        _this.list = response.data.rows
+      }).catch((response) => {
+        Indicator.close()
+        console.log('信息列表请求失败')
+      })
+    },
     loadTop () {
-      // 加载更多数据
+      // 刷新数据
+      this.pageNum = 1
+      this.init()
       this.$refs.loadmore.onTopLoaded()
     },
     loadBottom () {
-      this.limit = this.limit + 30
-      // 加载更多数据
-      console.log(this.$refs)
-      if (this.limit > (this.list.length - 1)) {
-        this.allLoaded = true // 若数据已全部获取完毕
-        this.$refs.loadmore.onBottomLoaded()
-      }
-      this.$refs.loadmore.onBottomLoaded()
-    },
-    loadMore () {
-      this.loading = true
+      console.log(this.list.length)
+      var _this = this
       setTimeout(() => {
-        this.loadBottom()
-        this.loading = false
-      }, 30)
+        _this.pageNum = _this.pageNum + 1
+        _this.init()
+        let lastValue = _this.list[_this.list.length - 1]
+        if (_this.list.length === 8) {
+          for (let i = 1; i <= 8; i++) {
+            _this.list.push(lastValue)
+          }
+        } else {
+          _this.allLoaded = false
+        }
+        _this.$refs.loadmore.onBottomLoaded()
+      }, 1000)
     }
   }
 }
@@ -92,7 +93,7 @@ export default {
 </style>
 <style scoped>
   ul{
-    padding:40px 0 55px;
+    padding:40px 0 0;
   }
   .noticewrap{
     display: flex;

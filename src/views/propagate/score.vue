@@ -1,7 +1,7 @@
 <template>
   <div>
-      <mt-header fixed title="盟讯邮寄列表">
-        <router-link to="/" slot="left">
+      <mt-header fixed title="评分系统">
+        <router-link to="/score-list" slot="left">
           <mt-button icon="back">返回</mt-button>
         </router-link>
       </mt-header>
@@ -15,7 +15,12 @@
                     ref="loadmore">
         <ul>
           <li v-for="(item, index) in list" v-bind:key="item.id" v-if="index < limit">
-            <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell>
+            <!-- <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell> -->
+            <div class="score">
+              <div><span>题目：</span><span>{{item.Theme}}</span></div>
+              <div><span>分数：</span><span>{{item.Score}}</span></div>
+              <div><span>得分项：</span><span>{{item.UserName}}</span></div>
+            </div>
           </li>
         </ul>
       </mt-loadmore>
@@ -77,5 +82,11 @@ export default {
 <style scoped>
   ul{
     padding:40px 0 55px;
+    background: #f5f5f5;
+  }
+  .score{
+    margin-top:20px;
+    padding:10px 15px;
+    background: white;
   }
 </style>

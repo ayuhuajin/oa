@@ -1,6 +1,6 @@
 <template>
   <div>
-      <mt-header fixed title="盟讯邮寄列表">
+      <mt-header fixed title="评分系统">
         <router-link to="/" slot="left">
           <mt-button icon="back">返回</mt-button>
         </router-link>
@@ -17,8 +17,16 @@
           <!-- <li v-for="(item, index) in list" v-bind:key="item.id" v-if="index < limit">
             <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell>
           </li> -->
-          <router-link tag="li" :to="{name:'score',params:{keyValue:item.id}}" v-for="(item, index) in list" v-bind:key="item.index">
-            <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell>
+          <div class="ranking title">
+            <span>姓名</span>
+            <span>分数</span>
+          </div>
+          <router-link tag="li" :to="{name:'score',params:{keyValue:item.id}}" v-for="(item, index) in list" v-bind:key="index">
+            <!-- <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell> -->
+            <div class="ranking">
+              <span>{{item.UserName}}</span>
+              <span>{{item.Score}}</span>
+            </div>
           </router-link>
         </ul>
       </mt-loadmore>
@@ -77,8 +85,18 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
   ul{
     padding:40px 0 55px;
+  }
+  .ranking{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-bottom: 1px solid #f5f5f5;
+    line-height: 45px;
+  }
+  .title{
+    color:#26a2ff
   }
 </style>

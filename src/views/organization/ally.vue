@@ -97,12 +97,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 10px 10px;
+  padding: 10px 15px;
   color: #8f8f94;
   border-bottom: 1px solid #f5f5f5;
   }
   .title{
-    font-size: 18px;
+    font-size: 16px;
     color:#333;
   }
 </style>
