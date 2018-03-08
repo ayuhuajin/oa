@@ -9,19 +9,43 @@ import addressList from '@/views/addressList'
 import my from '@/views/my'
 import tab from '@/views/tab'
 import login from '@/views/login'
-import send from '@/views/send'
-import messageList from '@/views/common/message-list'
-import messageDetail from '@/views/common/message-detail'
-import message from '@/views/common/message'
+
+import send from '@/views/common/send'
+import sendList from '@/views/common/send-list'
+import sendDetail from '@/views/common/send-detail'
+import meeting from '@/views/common/meeting'
+import meetingList from '@/views/common/meeting-list'
+import meetingDetail from '@/views/common/meeting-detail'
+import notice from '@/views/common/notice'
 import noticeList from '@/views/common/notice-list'
 import noticeDetail from '@/views/common/notice-detail'
-import notice from '@/views/common/notice'
 import notice3 from '@/views/common/notice3'
+import message from '@/views/common/message'
+import messageList from '@/views/common/message-list'
+import messageDetail from '@/views/common/message-detail'
+
 import ally from '@/views/organization/ally'
 import allyDetail from '@/views/organization/ally-detail'
+
+import research from '@/views/research/research'
+import researchList from '@/views/research/research-list'
+import researchDetail from '@/views/research/research-detail'
+import proposal from '@/views/research/proposal'
+import proposalList from '@/views/research/proposal-list'
+import proposalDetail from '@/views/research/proposal-detail'
+
 import mail from '@/views/propagate/mail'
+import manuscripts from '@/views/propagate/manuscripts'
+import manuscriptsList from '@/views/propagate/manuscripts-list'
+import manuscriptsDetail from '@/views/propagate/manuscripts-detail'
 import scoreList from '@/views/propagate/score-list'
 import score from '@/views/propagate/score'
+
+import myInfo from '@/views/info/my-info'
+import modify from '@/views/info/modify'
+import feedback from '@/views/info/feedback'
+import about from '@/views/info/about'
+import version from '@/views/info/version'
 import 'mint-ui/lib/style.css'
 
 Vue.use(Router)
@@ -90,6 +114,46 @@ const router = new Router({
       path: '/send',
       name: 'send',
       component: send,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/send-list',
+      name: 'sendList',
+      component: sendList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/send-detail',
+      name: 'sendDetail',
+      component: sendDetail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/meeting',
+      name: 'meeting',
+      component: meeting,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/meeting-list',
+      name: 'meetingList',
+      component: meetingList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/meeting-detail',
+      name: 'meetingDetail',
+      component: meetingDetail,
       meta: {
         requireAuth: true
       }
@@ -167,9 +231,81 @@ const router = new Router({
       }
     },
     {
+      path: '/research',
+      name: 'research',
+      component: research,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/research-list',
+      name: 'researchList',
+      component: researchList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/research-detail',
+      name: 'researchDetail',
+      component: researchDetail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/proposal',
+      name: 'proposal',
+      component: proposal,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/proposal-list',
+      name: 'proposalList',
+      component: proposalList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/proposal-detail',
+      name: 'proposalDetail',
+      component: proposalDetail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
       path: '/mail',
       name: 'mail',
       component: mail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/manuscripts',
+      name: 'manuscripts',
+      component: manuscripts,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/manuscripts-list',
+      name: 'manuscriptsList',
+      component: manuscriptsList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/manuscripts-detail',
+      name: 'manuscriptsDetail',
+      component: manuscriptsDetail,
       meta: {
         requireAuth: true
       }
@@ -186,6 +322,46 @@ const router = new Router({
       path: '/score',
       name: 'score',
       component: score,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/my-info',
+      name: 'myInfo',
+      component: myInfo,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/modify',
+      name: 'modify',
+      component: modify,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/feedback',
+      name: 'feedback',
+      component: feedback,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: about,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/version',
+      name: 'version',
+      component: version,
       meta: {
         requireAuth: true
       }

@@ -18,7 +18,7 @@ export default {
 
 <style>
 .icon {
-  width: 2em; height: 2em;
+  width: 1.8em; height: 1.8em;
   margin: 0 auto;
   vertical-align: -0.15em;
   fill: currentColor;

@@ -1,23 +1,22 @@
 <template>
-<!-- <div style="height:100vh;overflow: scroll;"> -->
   <div>
-      <mt-header fixed title="通知公告">
-        <router-link to="/" slot="left">
-          <mt-button icon="back">返回</mt-button>
-        </router-link>
-        <router-link to="/notice" slot="right">
-          <mt-button >创建</mt-button>
-        </router-link>
-      </mt-header>
-
+    <mt-header fixed title="通知公告">
+      <router-link to="/" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+      <router-link to="/notice" slot="right">
+        <mt-button >创建</mt-button>
+      </router-link>
+    </mt-header>
+    <div style="height:100vh;overflow: scroll;">
       <mt-loadmore  :top-method="loadTop"
                     :bottom-method="loadBottom"
                     :bottom-all-loaded="allLoaded"
-                    :auto-fill="true"
+                    :auto-fill="false"
                     ref="loadmore">
         <ul>
           <router-link tag="li" :to="{name:'noticeDetail', params:{keyValue:item.NewsId}}" v-for="(item, index) in list" v-bind:key="index">
-            <div class="noticewrap">
+            <div class="wrap">
               <div>
                 <div class="title">{{item.FullHead}}</div>
                 <div>{{item.NewsContent}}</div>
@@ -27,6 +26,7 @@
           </router-link>
         </ul>
       </mt-loadmore>
+    </div>
   </div>
 </template>
 
@@ -34,7 +34,7 @@
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
 export default {
-  name: 'addressList',
+  name: 'noticeList',
   data () {
     return {
       msg: '通讯录',
@@ -52,10 +52,13 @@ export default {
   methods: {
     init () {
       var _this = this
-      axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=3&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
+      axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=10&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
         console.log('信息列表请求成功')
-        _this.pageNum = _this.pageNum + 1
-        _this.list = response.data.rows
+        // _this.list = response.data.rows  // 纯分页
+        _this.list = _this.list.concat(response.data.rows)// 添加在数据后面
+        // if(response.data.rows.length < 7) {
+        //   _this.allLoaded = true
+        // }
       }).catch((response) => {
         Indicator.close()
         console.log('信息列表请求失败')
@@ -63,47 +66,39 @@ export default {
     },
     loadTop () {
       // 刷新数据
-      this.pageNum = 1
-      this.init()
+      const _this = this
+      _this.pageNum = 1
+      axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=10&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
+        console.log('信息列表请求成功')
+        _this.list = response.data.rows// 纯分页
+      }).catch((response) => {
+        Indicator.close()
+        console.log('信息列表请求失败')
+      })
       this.$refs.loadmore.onTopLoaded()
     },
     loadBottom () {
       console.log(this.list.length)
       var _this = this
       setTimeout(() => {
-        
+        _this.pageNum = _this.pageNum + 1
         _this.init()
-         _this.list =  _this.list.concat(_this.list)
-        // let lastValue = _this.list[_this.list.length - 1]
-        
-        // if (_this.list.length === 8) {
-        //   for (let i = 1; i <= 8; i++) {
-        //     _this.list.push(lastValue+i)
-        //   }
-        // } else {
-        //   _this.allLoaded = false
-        // }
         _this.$refs.loadmore.onBottomLoaded()
       }, 1000)
     }
   }
 }
 </script>
-<style>
-  .mint-cell-allow-right::after{
-    width: 12px;
-    height: 12px;
-  }
-</style>
+
 <style scoped>
   ul{
     padding:40px 0 0;
   }
-  .noticewrap{
+  .wrap{
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 10px 10px;
+    padding: 10px 15px;
     color: #8f8f94;
     border-bottom: 1px solid #f5f5f5;
   }

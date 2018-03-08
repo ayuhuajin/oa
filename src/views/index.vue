@@ -2,13 +2,12 @@
   <div class="body">
     <section class="depart">
       <h3 class="title">通用功能</h3>
-      <!-- <h3>{{$store.state.token}}</h3> -->
       <ul class="action-list">
-        <router-link to="./send" tag="li">
+        <router-link to="./send-list" tag="li">
           <img src="../assets/images/icon01.png">
-          <p>发文</p>
+          <p>机关发文</p>
         </router-link>
-        <router-link to="./send" tag="li">
+        <router-link to="./meeting-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>活动会议组织</p>
         </router-link>
@@ -34,11 +33,11 @@
     <section class="depart">
       <h3 class="title">调研部</h3>
       <ul class="action-list">
-        <router-link to="./send" tag="li">
+        <router-link to="./research-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>调研课题</p>
         </router-link>
-        <router-link to="./send" tag="li">
+        <router-link to="./proposal-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>提案工作</p>
         </router-link>
@@ -51,9 +50,9 @@
           <img src="../assets/images/icon01.png">
           <p>盟讯邮寄列表</p>
         </router-link>
-        <router-link to="./notice3" tag="li">
+        <router-link to="./manuscripts-list" tag="li">
           <img src="../assets/images/icon01.png">
-          <p>约稿</p>
+          <p>约稿/报送</p>
         </router-link>
         <router-link to="./score-list" tag="li">
           <img src="../assets/images/icon01.png">
@@ -64,7 +63,7 @@
     <section class="depart">
       <h3 class="title">办公室</h3>
       <ul class="action-list">
-        <router-link to="./send" tag="li">
+        <router-link to="./notice3" tag="li">
           <img src="../assets/images/icon01.png">
           <p>办公室</p>
         </router-link>

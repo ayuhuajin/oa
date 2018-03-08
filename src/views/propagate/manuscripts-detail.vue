@@ -1,0 +1,15 @@
+<template>
+  <div>{{msg}}</div>
+</template>
+
+<script>
+
+export default {
+  name: 'app',
+  data () {
+    return {
+      msg: '约稿详情'
+    }
+  }
+}
+</script>

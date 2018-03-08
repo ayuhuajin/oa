@@ -15,15 +15,18 @@
                     ref="loadmore">
         <ul>
           <li v-for="(item, index) in list" @click="toggle(index)" v-bind:key="item.id" v-if="index < limit">
-            <!-- <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell> -->
             <div class="wrap">
-              <div>
-                <div class="title">{{item.UserName}}
-                  <img class="angle" v-bind:class="{'togglec':item.iconClass}" src="../../assets/images/angle.png">
+              <div class="wrap-inner">
+                <div class="title">
+                  <span>{{item.UserName}}</span>
+                  <img class="angle" v-bind:class="{'toggle-angle':item.iconClass}" src="../../assets/images/angle.png">
                 </div>
-                <div>
-                  <div>{{item.Mobile}}</div>
-                  <div>{{item.DepartmentName}}</div>
+                <div class="info" v-if="item.iconClass">
+                  <div>名字 : {{(item.UserName == null) ? '暂无' :item.UserName}}</div>
+                  <div>部门 : {{(item.DepartmentName == null ? '暂无' :item.DepartmentName)}}</div>
+                  <div>电话 : {{(item.Mobile == null ? '暂无' :item.Mobile)}}</div>
+                  <div>邮编 : {{(item.Postcode == null ? '暂无' :item.Postcode)}}</div>
+                  <div>地址 : {{(item.Address == null ? '暂无' :item.Address)}}</div>
                 </div>
               </div>
             </div>
@@ -41,35 +44,38 @@ export default {
   data () {
     return {
       phone: '暂无',
-      list: '',
+      list: {},
       keyValue: '',
       allLoaded: false,
       limit: 30
     }
   },
   created: function () {
+  },
+  mounted: function () {
     var _this = this
     var userid = localStorage.getItem('userid')
     axios.get('/BaseManage/User/MobileEmailUserList?UserId=' + userid + '', {}).then((response) => {
       console.log('信息列表请求成功')
-      _this.list = response.data
-      this.geList()
+      _this.list = this.geList(response.data)
     }).catch((response) => {
       Indicator.close()
       console.log('信息列表请求失败')
     })
   },
   methods: {
-    geList () {
-      this.list.map(function (item) {
-        item.iconClass = true
+    geList (data) {
+      var mapLIst = data.map(function (item) {
+        item.iconClass = false
         return item
       })
-      console.log(this.list)
+      console.log(mapLIst)
+      return mapLIst
     },
     toggle: function (index) {
       console.log(this.list[index].iconClass)
       this.list[index].iconClass = !this.list[index].iconClass
+      // this.$set(this.list[index], 'iconClass', !(this.list[index].iconClass));
     },
     loadTop () {
       // 加载更多数据
@@ -109,15 +115,24 @@ export default {
   border-bottom: 1px solid #f5f5f5;
   }
   .title{
+    display: flex;
+    justify-content: space-between;
     font-size: 16px;
     color:#333;
+  }
+  .wrap-inner{
+    width: 100%;
+  }
+  .info div{
+    line-height: 20px;
+    font-size: 14px;
   }
   .angle{
   transform: rotate(90deg);
   width: 7px;
   height: 18px;
-}
-.togglec{
-  transform: rotate(-90deg);
-}
+  }
+  .toggle-angle{
+    transform: rotate(-90deg);
+  }
 </style>
