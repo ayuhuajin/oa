@@ -56,10 +56,11 @@ export default {
         NewsContent: _this.content,
         FileIds: _this.FileIds,
         ReLeaseTime: _this.time
-      }), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then((response) => {
-        alert(111)
+      }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+        console.log('信息提交成功')
+        this.$router.push({path: '/notice-list'})
       }).catch((resopnse) => {
-        alert(222)
+        console.log('信息提交失败')
       })
     },
     submitUpload () {
