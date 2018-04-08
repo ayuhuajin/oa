@@ -54,7 +54,8 @@ export default {
       var _this = this
       axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=10&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
         console.log('信息列表请求成功')
-        // _this.list = response.data.rows  // 纯分页
+        // _this.list = response.data.rows  // 纯分页 下拉后面没有push数据
+        // 值得注意的是只有当实例被创建时 data 中存在的属性才是响应式的。
         _this.list = _this.list.concat(response.data.rows)// 添加在数据后面
         // if(response.data.rows.length < 7) {
         //   _this.allLoaded = true
@@ -103,6 +104,7 @@ export default {
     border-bottom: 1px solid #f5f5f5;
   }
   .title{
+    margin-bottom: 2px;
     font-size: 18px;
     color:#333;
   }
