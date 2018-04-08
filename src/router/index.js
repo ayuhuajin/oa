@@ -10,6 +10,9 @@ import my from '@/views/my'
 import tab from '@/views/tab'
 import login from '@/views/login'
 
+import approved from '@/views/common/approved'
+import approvedList from '@/views/common/approved-list'
+import approvedDetail from '@/views/common/approved-detail'
 import send from '@/views/common/send'
 import sendList from '@/views/common/send-list'
 import sendDetail from '@/views/common/send-detail'
@@ -130,6 +133,30 @@ const router = new Router({
       path: '/send-detail',
       name: 'sendDetail',
       component: sendDetail,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/approved',
+      name: 'approved',
+      component: approved,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/approved-list',
+      name: 'approvedList',
+      component: approvedList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/approved-detail',
+      name: 'approvedDetail',
+      component: approvedDetail,
       meta: {
         requireAuth: true
       }

@@ -22,6 +22,26 @@
     <button @click="save">签名</button>
     <button @click="clear">清除</button>
     <button @click="clear">上传签名</button>
+
+    <div class="nav">
+      <mt-button size="small" @click.native.prevent="active = 'tab-container1'">tab 1</mt-button>
+      <mt-button size="small" @click.native.prevent="active = 'tab-container2'">tab 2</mt-button>
+      <mt-button size="small" @click.native.prevent="active = 'tab-container3'">tab 3</mt-button>
+    </div>
+    <div class="page-tab-container">
+      <mt-tab-container class="page-tabbar-tab-container" v-model="active" swipeable>
+        <mt-tab-container-item id="tab-container1">
+          <mt-cell v-for="(n, index) in 3" title="tab-container 1" :key="n.index">{{index}}</mt-cell>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="tab-container2">
+          <mt-cell v-for="(n, index) in 5" title="tab-container 2" :key="n.index">{{index}}</mt-cell>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="tab-container3">
+          <mt-cell v-for="(n, index) in 6" title="tab-container 3" :key="n.index">{{index}}</mt-cell>
+        </mt-tab-container-item>
+      </mt-tab-container>
+    </div>
+
   </div>
 </template>
 
@@ -42,7 +62,8 @@ export default {
       png: '',
       option: {
         penColor: 'rgb(0, 0, 0)'
-      }
+      },
+      active: 'tab-container1'
     }
   },
   created: function () {
@@ -146,5 +167,11 @@ export default {
   }
   .el-upload-list__item:hover .el-icon-close{
 
+  }
+  .nav{
+    margin-top: 30px;
+  }
+  .page-tab-container{
+    margin-top: 5px;
   }
 </style>
