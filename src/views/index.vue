@@ -31,6 +31,15 @@
       </ul>
     </section>
     <section class="depart">
+      <h3 class="title">办公室</h3>
+      <ul class="action-list">
+        <router-link to="./notice3" tag="li">
+          <img src="../assets/images/icon01.png">
+          <p>办公室</p>
+        </router-link>
+      </ul>
+    </section>
+    <section class="depart">
       <h3 class="title">调研部</h3>
       <ul class="action-list">
         <router-link to="./research-list" tag="li">
@@ -57,15 +66,6 @@
         <router-link to="./score-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>评分系统</p>
-        </router-link>
-      </ul>
-    </section>
-    <section class="depart">
-      <h3 class="title">办公室</h3>
-      <ul class="action-list">
-        <router-link to="./notice3" tag="li">
-          <img src="../assets/images/icon01.png">
-          <p>办公室</p>
         </router-link>
       </ul>
     </section>

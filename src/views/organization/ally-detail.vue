@@ -165,11 +165,13 @@ export default {
       this.isA = !this.isA
       // this.list = JSON.stringify(this.list)
       console.log(this.list)
-      axios.post('/BaseManage/User/MobileSaveForm?keyValue=' + this.$route.params.keyValue + '', '', {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then((response) => {
-        console.log(1111)
-      }).catch((response) => {
-        alert(222)
-      })
+      axios.post('/BaseManage/User/MobileSaveForm?keyValue=' + this.$route.params.keyValue + '', '',
+        {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+        .then((response) => {
+          console.log(1111)
+        }).catch((response) => {
+          alert(222)
+        })
     },
     up1: function () {
       this.centain = !this.centain
