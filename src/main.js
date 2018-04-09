@@ -4,6 +4,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import './api/mock.js'
 import './assets/css/reset.scss'
 import './assets/css/public.css'
 import './assets/js/rem.js'
