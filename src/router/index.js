@@ -4,8 +4,8 @@ import MintUI from 'mint-ui'
 import HelloWorld from '@/components/HelloWorld'
 import error from '@/components/error'
 import index from '@/views/index'
-import toDo from '@/views/toDo'
-import addressList from '@/views/addressList'
+// import toDo from '@/views/toDo'
+// import addressList from '@/views/addressList'
 import my from '@/views/my'
 import tab from '@/views/tab'
 import login from '@/views/login'
@@ -79,7 +79,7 @@ const router = new Router({
     {
       path: '/toDo',
       name: 'toDo',
-      component: toDo,
+      component: resolve => require(['@/views/toDo'], resolve), // 路由中配置异步组件
       meta: {
         requireAuth: true
       }
@@ -87,7 +87,7 @@ const router = new Router({
     {
       path: '/addressList',
       name: 'addressList',
-      component: addressList,
+      component: resolve => require(['@/views/addressList'], resolve), // 路由中配置异步组件
       meta: {
         requireAuth: true
       }
