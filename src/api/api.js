@@ -63,17 +63,111 @@
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
 
+axios.defaults.baseURL = '/apis'
+// axios.defaults.baseURL = ''
+// 请求拦截
+axios.interceptors.request.use(function (config) {
+  // 处理拦截
+  // 设置记载状态
+  // store.commit('setLoading', true)
+  Indicator.open('Loading...')
+  // console.log(JSON.stringify(config))
+  return config
+}, function (error) {
+  return Promise.reject(error)
+})
+
+// 响应拦截
+axios.interceptors.response.use(function (response) {
+  // 处理响应配置
+  // 隐藏加载
+  // store.commit('setLoading', false)
+  Indicator.close()
+  // const data = response.data
+  // alert(JSON.stringify(data))
+  return response
+}, function (error) {
+  // 响应失败处理
+  return Promise.reject(error)
+})
+
+// ===============================【通用功能相关接口∨】===============================
+
 /**
  * 登录模块
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
  */
 export function ajaxLogin (userNumber, callback) {
-  console.log(111)
   axios.get('/BaseManage/User/UserListMobile', {}).then((response) => {
     console.log('通讯录请求成功')
+    callback(response.data)
   }).catch((response) => {
     Indicator.close()
     console.log('通讯录请求失败')
   })
 }
+
+/**
+ * 活动会议组织列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMeetingList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/PublicInfoManage/Conference/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('通讯录请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('通讯录请求失败')
+  })
+}
+
+// ===============================【通用功能相关接口∧】===============================
+
+// ===============================【组织部相关接口∨】===============================
+
+// ===============================【组织部相关接口∧】===============================
+
+// ===============================【调研部相关接口∨】===============================
+
+/**
+ * 提案工作列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxProposalList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/ProposalManage/Proposal/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('通讯录请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('通讯录请求失败')
+  })
+}
+
+// ===============================【调研部相关接口∨】===============================
+
+// ===============================【宣传部相关接口∨】===============================
+
+// ===============================【宣传部相关接口∨】===============================
