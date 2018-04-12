@@ -56,7 +56,7 @@ Vue.use(MintUI)
 
 const router = new Router({
   mode: 'history',
-  // base: '/Mobilev2/dist/',
+  // base: '/MobileV2/dist/',
   routes: [
     {
       path: '*',
