@@ -1,107 +1,107 @@
 <template>
   <div>
-      <mt-header fixed title="短信群发">
-        <router-link to="/" slot="left">
-          <mt-button icon="back">返回</mt-button>
-        </router-link>
-        <router-link to="/message" slot="right">
-          <mt-button >创建</mt-button>
-        </router-link>
-      </mt-header>
-      <mt-loadmore  v-infinite-scroll="loadMore"
-                    infinite-scroll-disabled="loading"
-                    infinite-scroll-distance="9"
-                    :top-method="loadTop"
+    <mt-header fixed title="短信群发">
+      <router-link to="/" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+      <router-link to="/notice" slot="right">
+        <mt-button >创建</mt-button>
+      </router-link>
+    </mt-header>
+    <div style="height:100vh;overflow: scroll;">
+      <mt-loadmore  :top-method="loadTop"
                     :bottom-method="loadBottom"
                     :bottom-all-loaded="allLoaded"
                     :auto-fill="false"
                     ref="loadmore">
         <ul>
-          <router-link tag="li" :to="{name:'messageDetail', params:{keyValue:item.SmsId}}" v-for="(item, index) in list" v-bind:key="item.id" v-if="index < limit" @click="detail(index)">
-            <mt-cell v-bind:index="index" v-bind:title="item.SmsContent">{{index}}</mt-cell>
+          <router-link tag="li" :to="{name:'noticeDetail', params:{keyValue:item.NewsId}}" v-for="(item, index) in list" v-bind:key="index">
+            <div class="wrap">
+              <div>
+                <div class="title">{{item.SmsContent}}</div>
+                <div>{{item.NewsContent}}</div>
+              </div>
+              <div>{{item.ReleaseTime}}</div>
+            </div>
           </router-link>
-          <!-- <router-link tag="li" to="/messageDetail/199" v-for="(item, index) in list" v-bind:key="item.id" v-if="index < limit" @click="detail(index)">
-            <mt-cell v-bind:index="index" v-bind:title="item.SmsContent">{{index}}</mt-cell>
-          </router-link> -->
         </ul>
       </mt-loadmore>
+    </div>
   </div>
 </template>
 
 <script>
-// import { Loadmore } from 'mint-ui'
-import axios from 'axios'
-import { Indicator } from 'mint-ui'
-// Vue.component(Loadmore.name, Loadmore)
+import { ajaxMessageList } from '../../api/api.js'
 export default {
+  name: 'noticeList',
   data () {
     return {
-      msg: 'hello',
-      list: '',
+      msg: '通知公告列表',
+      params: {
+        page: 1,
+        rows: 10,
+        sidx: 'CreateDate',
+        sord: 'desc',
+        queryJson: {}
+      },
+      list: [],
       keyValue: '',
       allLoaded: false,
-      limit: 5
+      pageNum: 1
     }
   },
   created: function () {
-    var _this = this
-    this.keyValue = localStorage.getItem('username')
-    axios.get('/BaseManage/User/MobileGetFormJson?keyValue=' + this.keyValue + '', {}).then((response) => {
-      console.log('授权信息请求成功')
-    }).catch((response) => {
-      Indicator.close()
-      console.log('授权信息请求失败')
-    })
-    axios.get('/PublicInfoManage/Sms/MobileGetPageListJson?rows=30&page=1&sidx=CreateDate&sord=desc', {}).then((response) => {
-      console.log('信息列表请求成功')
-      _this.list = response.data.rows
-      // _this.keyValue = response.data.
-    }).catch((response) => {
-      Indicator.close()
-      console.log('信息列表请求失败')
+  },
+  mounted () {
+    const _this = this
+
+    ajaxMessageList(this.params, function (data) {
+      console.log(data)
+      _this.list = _this.list.concat(data.rows)
     })
   },
   methods: {
-    detail (index) {
-      console(11)
-    },
     loadTop () {
-      // 加载更多数据
+      // 刷新数据
+      const _this = this
+      _this.params.page = 1
+
+      ajaxMessageList(_this.params, function (data) {
+        console.log(data)
+        _this.list = data.rows
+      })
       this.$refs.loadmore.onTopLoaded()
     },
     loadBottom () {
-      this.limit = this.limit + 10
-      // 加载更多数据
-      console.log(this.$refs)
-      if (this.limit > (this.list.length - 1)) {
-        this.allLoaded = true // 若数据已全部获取完毕
-        this.$refs.loadmore.onBottomLoaded()
-      }
-      this.$refs.loadmore.onBottomLoaded()
-    },
-    loadMore () {
-      this.loading = true
+      const _this = this
       setTimeout(() => {
-        // let last = this.list[this.list.length - 1]
-        // for (let i = 1; i <= 10; i++) {
-        //   this.list.push(last + i)
-        //   console.log(1111)
-        // }
-        this.loadBottom()
-        this.loading = false
-      }, 300)
+        _this.params.page = _this.params.page + 1
+        ajaxMessageList(_this.params, function (data) {
+          console.log(data)
+          _this.list = _this.list.concat(data.rows)
+        })
+        _this.$refs.loadmore.onBottomLoaded()
+      }, 1000)
     }
   }
 }
 </script>
-<style>
-  .mint-cell-wrapper{
-    border-bottom:1px solid #ddd;
-  }
-</style>
 
 <style scoped>
   ul{
-    padding:40px 0;
+    padding:40px 0 0;
+  }
+  .wrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px 15px;
+    color: #8f8f94;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .title{
+    margin-bottom: 2px;
+    font-size: 18px;
+    color:#333;
   }
 </style>

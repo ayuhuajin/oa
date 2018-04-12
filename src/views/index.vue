@@ -61,7 +61,15 @@
         </router-link>
         <router-link to="./manuscripts-list" tag="li">
           <img src="../assets/images/icon01.png">
-          <p>约稿/报送</p>
+          <p>约稿</p>
+        </router-link>
+        <router-link to="./manuscripts-list" tag="li">
+          <img src="../assets/images/icon01.png">
+          <p>信息报送</p>
+        </router-link>
+        <router-link to="./manuscripts-list" tag="li">
+          <img src="../assets/images/icon01.png">
+          <p>宣传报送</p>
         </router-link>
         <router-link to="./score-list" tag="li">
           <img src="../assets/images/icon01.png">

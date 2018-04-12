@@ -31,19 +31,14 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { Indicator } from 'mint-ui'
 import { ajaxNoticeList } from '../../api/api.js'
 export default {
   name: 'noticeList',
   data () {
     return {
-      msg: '通知公告列表',
-      params: {
-        page: 1,
-        rows: 10,
-        sidx: 'CreateDate',
-        sord: 'desc',
-        queryJson: {}
-      },
+      msg: '通讯录',
       list: [],
       keyValue: '',
       allLoaded: false,
@@ -53,33 +48,43 @@ export default {
   created: function () {
   },
   mounted () {
-    const _this = this
-
-    ajaxNoticeList(this.params, function (data) {
-      console.log(data)
-      _this.list = _this.list.concat(data.rows)
-    })
+    this.init()
   },
   methods: {
+    init () {
+      var _this = this
+      axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=10&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
+        console.log('信息列表请求成功')
+        // _this.list = response.data.rows  // 纯分页 下拉后面没有push数据
+        // 值得注意的是只有当实例被创建时 data 中存在的属性才是响应式的。
+        _this.list = _this.list.concat(response.data.rows)// 添加在数据后面
+        // if(response.data.rows.length < 7) {
+        //   _this.allLoaded = true
+        // }
+      }).catch((response) => {
+        Indicator.close()
+        console.log('信息列表请求失败')
+      })
+    },
     loadTop () {
       // 刷新数据
       const _this = this
-      _this.params.page = 1
-
-      ajaxNoticeList(_this.params, function (data) {
-        console.log(data)
-        _this.list = data.rows
+      _this.pageNum = 1
+      axios.get('/PublicInfoManage/Notice/GetPageListJson?rows=10&page=' + _this.pageNum + '&sidx=CreateDate&sord=desc', {}).then((response) => {
+        console.log('信息列表请求成功')
+        _this.list = response.data.rows// 纯分页
+      }).catch((response) => {
+        Indicator.close()
+        console.log('信息列表请求失败')
       })
       this.$refs.loadmore.onTopLoaded()
     },
     loadBottom () {
-      const _this = this
+      console.log(this.list.length)
+      var _this = this
       setTimeout(() => {
-        _this.params.page = _this.params.page + 1
-        ajaxNoticeList(_this.params, function (data) {
-          console.log(data)
-          _this.list = _this.list.concat(data.rows)
-        })
+        _this.pageNum = _this.pageNum + 1
+        _this.init()
         _this.$refs.loadmore.onBottomLoaded()
       }, 1000)
     }

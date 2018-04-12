@@ -125,11 +125,61 @@ export function ajaxMeetingList (data, callback) {
   axios.get('/PublicInfoManage/Conference/GetMobilePageListJson', {
     params: params
   }).then((response) => {
-    console.log('通讯录请求成功')
+    console.log('活动会议组织列表请求成功')
     callback(response.data)
   }).catch((response) => {
     Indicator.close()
-    console.log('通讯录请求失败')
+    console.log('活动会议组织列表请求失败')
+  })
+}
+
+/**
+ * 通知公告列表
+ * @param {object} loginUser - ;
+ * @param {userNumber} accNbr - ;
+ */
+export function ajaxNoticeList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/PublicInfoManage/Notice/GetPageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('通知公告列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('通知公告列表请求失败')
+  })
+}
+
+/**
+ * 短信群发列表
+ * @param {object} loginUser - ;
+ * @param {userNumber} accNbr - ;
+ */
+export function ajaxMessageList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/PublicInfoManage/Sms/MobileGetPageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('短信群发列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('短信群发列表请求失败')
   })
 }
 
@@ -140,6 +190,30 @@ export function ajaxMeetingList (data, callback) {
 // ===============================【组织部相关接口∧】===============================
 
 // ===============================【调研部相关接口∨】===============================
+/**
+ * 调研课题列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxResearchList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/SubjectManage/Subject/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('调研课题列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('调研课题列表请求失败')
+  })
+}
 
 /**
  * 提案工作列表
@@ -158,16 +232,89 @@ export function ajaxProposalList (data, callback) {
   axios.get('/ProposalManage/Proposal/GetMobilePageListJson', {
     params: params
   }).then((response) => {
-    console.log('通讯录请求成功')
+    console.log('提案工作列表请求成功')
     callback(response.data)
   }).catch((response) => {
     Indicator.close()
-    console.log('通讯录请求失败')
+    console.log('提案工作列表请求失败')
   })
 }
 
 // ===============================【调研部相关接口∨】===============================
 
 // ===============================【宣传部相关接口∨】===============================
+/**
+ * 约稿列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxManuscriptsList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
 
+  axios.get('/ReservationManage/Reservation/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('约稿列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('约稿列表请求失败')
+  })
+}
+
+/**
+ * 信息报送列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMessageReportList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/ReservationManage/Reservation/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('信息报送列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('信息报送列表请求失败')
+  })
+}
+
+/**
+ * 宣传报送列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxPropagateReportList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/ReservationManage/Reservation/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('宣传报送列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('宣传报送列表请求失败')
+  })
+}
 // ===============================【宣传部相关接口∨】===============================

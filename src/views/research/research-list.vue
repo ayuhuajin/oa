@@ -1,81 +1,83 @@
 <template>
   <div>
     <mt-header fixed title="调研课题">
-      <router-link to='/' slot="left">
+      <router-link to="/" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
-      <router-link to='/research' slot="right">
-        <mt-button>创建</mt-button>
+      <router-link to="/meeting" slot="right">
+        <mt-button >创建</mt-button>
       </router-link>
     </mt-header>
-    <div style="height:100vh;overflow:scroll;">
+
+    <div style="height:100vh;overflow: scroll;">
       <mt-loadmore  :top-method="loadTop"
                     :bottom-method="loadBottom"
                     :bottom-all-loaded="allLoaded"
                     :auto-fill="false"
                     ref="loadmore">
         <ul>
-          <router-link tag="li" :to="{name: 'researchDetail', params:{keyValue:item.SubjectId}}" v-for="(item, index) in list" v-bind:key="index">
+          <router-link tag="li" :to="{name:'noticeDetail', params:{keyValue:item.NewsId}}" v-for="(item, index) in list" v-bind:key="index">
             <div class="wrap">
               <div>
                 <div class="title">{{item.Theme}}</div>
                 <div>{{item.Description}}</div>
               </div>
-              <div>{{item.CreateUserName}}</div>
+              <div>{{item.ClosingDate}}</div>
             </div>
           </router-link>
         </ul>
       </mt-loadmore>
     </div>
+
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import { Indicator } from 'mint-ui'
+import { ajaxResearchList } from '../../api/api.js'
 export default {
-  name: 'researchList',
+  name: 'meetingList',
   data () {
     return {
       msg: '调研课题列表',
+      params: {
+        page: 1,
+        rows: 10,
+        sidx: 'SubjectId',
+        sord: 'desc',
+        queryJson: {}
+      },
       list: [],
-      keyValue: '',
-      allLoaded: false,
-      pageNum: 1
+      allLoaded: false
     }
   },
-  created: function () {
-  },
   mounted () {
-    this.init()
+    const _this = this
+
+    ajaxResearchList(this.params, function (data) {
+      console.log(data)
+      _this.list = _this.list.concat(data.rows)
+    })
   },
   methods: {
-    init () {
-      const _this = this
-      axios.get('/SubjectManage/Subject/GetMobilePageListJson?rows=10&page=' + _this.pageNum + '&sidx=SubjectId&sord=desc&queryJson={}', {}).then((response) => {
-        console.log('调研课题列表成功')
-        _this.list = _this.list.concat(response.data.rows)
-      }).catch((response) => {
-        Indicator.close()
-        console.log('调研课题列表失败')
-      })
-    },
     loadTop () {
+      // 刷新数据
       const _this = this
-      axios.get('/SubjectManage/Subject/GetMobilePageListJson?rows=10&page=1&sidx=SubjectId&sord=desc&queryJson={}', {}).then((response) => {
-        console.log('调研课题列表成功')
-        _this.list = response.data.rows// 纯分页
-      }).catch((response) => {
-        Indicator.close()
-        console.log('调研课题列表失败')
+      _this.params.page = 1
+
+      ajaxResearchList(_this.params, function (data) {
+        console.log(data)
+        _this.list = data.rows
       })
       this.$refs.loadmore.onTopLoaded()
     },
     loadBottom () {
       const _this = this
       setTimeout(() => {
-        _this.pageNum = _this.pageNum + 1
-        _this.init()
+        _this.params.page = _this.params.page + 1
+        ajaxResearchList(_this.params, function (data) {
+          console.log(data)
+          _this.list = _this.list.concat(data.rows)
+        })
         _this.$refs.loadmore.onBottomLoaded()
       }, 1000)
     }
@@ -96,6 +98,7 @@ export default {
     border-bottom: 1px solid #f5f5f5;
   }
   .title{
+    margin-bottom: 2px;
     font-size: 18px;
     color:#333;
   }
