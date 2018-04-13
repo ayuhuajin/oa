@@ -100,11 +100,11 @@ axios.interceptors.response.use(function (response) {
  */
 export function ajaxLogin (userNumber, callback) {
   axios.get('/BaseManage/User/UserListMobile', {}).then((response) => {
-    console.log('通讯录请求成功')
+    console.log('登录请求成功')
     callback(response.data)
   }).catch((response) => {
     Indicator.close()
-    console.log('通讯录请求失败')
+    console.log('登录请求失败')
   })
 }
 

@@ -96,9 +96,15 @@ export default {
 }
 </script>
 
+<style>
+  .mint-loadmore-content{
+    padding-top: 80px;
+  }
+</style>
+
 <style scoped>
   ul{
-      padding:85px 0 0;
+      padding:0px 0 0;
   }
   .wrap{
     display: flex;
@@ -117,7 +123,7 @@ export default {
     margin-top: 40px;
     border-bottom: 1px solid #eee;
   }
-  .nav{
+  /* .nav{
     position: fixed;
     z-index: 1;
     width: 100%;
@@ -128,12 +134,24 @@ export default {
     align-items: center;
     justify-content: center;
     background: white;
-  }
+  } */
   .nav a {
     flex:1;
     line-height: 40px;
     border-bottom:1px solid #eee;
     text-align: center;
+  }
+  .nav{
+    height: 40px;
+    color: red;
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    background: white;
+    /* flex-direction: row; */
   }
   .green{
     color:#26a2ff;;
