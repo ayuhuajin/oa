@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="approved">
     <mt-header fixed title="审批">
       <router-link to="/" slot="left">
         <mt-button icon="back">返回</mt-button>
@@ -96,9 +96,11 @@ export default {
 }
 </script>
 
-<style>
-  .mint-loadmore-content{
-    padding-top: 80px;
+<style lang="scss">
+  .approved{
+    .mint-loadmore-content{
+      padding-top: 80px;
+    }
   }
 </style>
 
