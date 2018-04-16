@@ -16,7 +16,7 @@
                     :auto-fill="false"
                     ref="loadmore">
         <ul>
-          <router-link tag="li" :to="{name:'noticeDetail', params:{keyValue:item.NewsId}}" v-for="(item, index) in list" v-bind:key="index">
+          <router-link tag="li" :to="{name:'manuscriptsDetail', params:{keyValue:item.ReservationId}}" v-for="(item, index) in list" v-bind:key="index">
             <div class="wrap">
               <div>
                 <div class="title">{{item.Theme}}</div>
@@ -35,7 +35,7 @@
 <script>
 import { ajaxManuscriptsList } from '../../api/api.js'
 export default {
-  name: 'meetingList',
+  name: 'manuscriptsList',
   data () {
     return {
       msg: '约稿列表',

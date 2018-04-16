@@ -20,7 +20,7 @@
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
 export default {
-  name: 'messageDetail',
+  name: 'noticeDetail',
   data () {
     return {
       content: ''
