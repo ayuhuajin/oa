@@ -62,6 +62,7 @@
 
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
+import qs from 'qs'
 
 axios.defaults.baseURL = '/apis'
 // axios.defaults.baseURL = ''
@@ -98,8 +99,14 @@ axios.interceptors.response.use(function (response) {
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
  */
-export function ajaxLogin (userNumber, callback) {
-  axios.get('/BaseManage/User/UserListMobile', {}).then((response) => {
+export function ajaxLogin (data, callback) {
+  axios.post('/Login/MobileCheckLogin', qs.stringify({
+    openid: data.openid,
+    username: data.username,
+    password: data.password,
+    phone: data.phone,
+    code: data.code
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
     console.log('登录请求成功')
     callback(response.data)
   }).catch((response) => {
@@ -108,6 +115,69 @@ export function ajaxLogin (userNumber, callback) {
   })
 }
 
+/**
+ * 获取验证码
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxVertifitionCode (data, callback) {
+  axios.post('/Login/MobileLoginSms', qs.stringify({
+    mobile: data
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('获取验证码请求成功')
+  }).catch((response) => {
+    console.log('获取验证码请求失败')
+  })
+}
+/**
+ * 发文列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxSendList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/DocumentManage/Document/MobileGetPageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('发文列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('发文列表请求失败')
+  })
+}
+
+/**
+ * 发文审批列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxApprovedList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/DocumentManage/Document/MobileToMeGetPageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('发文审批列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('发文审批列表请求失败')
+  })
+}
 /**
  * 活动会议组织列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
@@ -186,7 +256,20 @@ export function ajaxMessageList (data, callback) {
 // ===============================【通用功能相关接口∧】===============================
 
 // ===============================【组织部相关接口∨】===============================
-
+/**
+ * 盟员信息管理列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxAllyInfoManage (callback) {
+  axios.get('/BaseManage/User/UserListMobile').then((response) => {
+    console.log('盟员信息管理列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('盟员信息管理列表请求失败')
+  })
+}
 // ===============================【组织部相关接口∧】===============================
 
 // ===============================【调研部相关接口∨】===============================
@@ -244,6 +327,27 @@ export function ajaxProposalList (data, callback) {
 
 // ===============================【宣传部相关接口∨】===============================
 /**
+ * 盟讯邮寄列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMailList (data, callback) {
+  let params = {
+    UserId: data
+  }
+
+  axios.get('/BaseManage/User/MobileEmailUserList', {
+    params: params
+  }).then((response) => {
+    console.log('盟讯邮寄列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('盟讯邮寄列表请求失败')
+  })
+}
+
+/**
  * 约稿列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
@@ -279,10 +383,11 @@ export function ajaxMessageReportList (data, callback) {
     rows: data.rows,
     sidx: data.sidx,
     sord: data.sord,
-    queryJson: data.queryJson
+    queryJson: data.queryJson,
+    type: data.type
   }
 
-  axios.get('/ReservationManage/Reservation/GetMobilePageListJson', {
+  axios.get('/ReservationManage/ReservationReport/GetMobilePageListJson2', {
     params: params
   }).then((response) => {
     console.log('信息报送列表请求成功')
@@ -304,10 +409,11 @@ export function ajaxPropagateReportList (data, callback) {
     rows: data.rows,
     sidx: data.sidx,
     sord: data.sord,
-    queryJson: data.queryJson
+    queryJson: data.queryJson,
+    type: data.type
   }
 
-  axios.get('/ReservationManage/Reservation/GetMobilePageListJson', {
+  axios.get('/ReservationManage/ReservationReport/GetMobilePageListJson2', {
     params: params
   }).then((response) => {
     console.log('宣传报送列表请求成功')

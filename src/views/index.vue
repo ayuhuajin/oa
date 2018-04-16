@@ -63,11 +63,11 @@
           <img src="../assets/images/icon01.png">
           <p>约稿</p>
         </router-link>
-        <router-link to="./manuscripts-list" tag="li">
+        <router-link to="./report-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>信息报送</p>
         </router-link>
-        <router-link to="./manuscripts-list" tag="li">
+        <router-link to="./report2-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>宣传报送</p>
         </router-link>

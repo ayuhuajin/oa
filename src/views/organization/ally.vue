@@ -35,8 +35,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { Indicator } from 'mint-ui'
+import { ajaxAllyInfoManage } from '../../api/api.js'
 export default {
   data () {
     return {
@@ -48,13 +47,11 @@ export default {
     }
   },
   created: function () {
-    var _this = this
-    axios.get('/BaseManage/User/UserListMobile', {}).then((response) => {
-      console.log('信息列表请求成功')
-      _this.list = response.data
-    }).catch((response) => {
-      Indicator.close()
-      console.log('信息列表请求失败')
+    const _this = this
+
+    ajaxAllyInfoManage(function (data) {
+      console.log(data)
+      _this.list = data
     })
   },
   methods: {

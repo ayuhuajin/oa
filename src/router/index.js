@@ -338,6 +338,54 @@ const router = new Router({
       }
     },
     {
+      path: '/report',
+      name: 'repor',
+      component: resolve => require(['@/views/propagate/report'], resolve), // 路由中配置异步组件
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/report-list',
+      name: 'reportList',
+      component: resolve => require(['@/views/propagate/report-list'], resolve), // 路由中配置异步组件
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/report-detail',
+      name: 'reportDetail',
+      component: resolve => require(['@/views/propagate/report-detail'], resolve), // 路由中配置异步组件
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/report2',
+      name: 'repor2',
+      component: resolve => require(['@/views/propagate/report2'], resolve), // 路由中配置异步组件
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/report2-list',
+      name: 'report2List',
+      component: resolve => require(['@/views/propagate/report2-list'], resolve), // 路由中配置异步组件
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/report2-detail',
+      name: 'report2Detail',
+      component: resolve => require(['@/views/propagate/report2-detail'], resolve), // 路由中配置异步组件
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
       path: '/score-list',
       name: 'scoreList',
       component: scoreList,

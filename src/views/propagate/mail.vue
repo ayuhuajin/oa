@@ -37,8 +37,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { Indicator } from 'mint-ui'
+import { ajaxMailList } from '../../api/api.js'
 export default {
   name: 'addressList',
   data () {
@@ -47,20 +46,26 @@ export default {
       list: {},
       keyValue: '',
       allLoaded: false,
-      limit: 30
+      limit: 30,
+      userid: ''
     }
   },
   created: function () {
   },
   mounted: function () {
-    var _this = this
-    var userid = localStorage.getItem('userid')
-    axios.get('/BaseManage/User/MobileEmailUserList?UserId=' + userid + '', {}).then((response) => {
-      console.log('信息列表请求成功')
-      _this.list = this.geList(response.data)
-    }).catch((response) => {
-      Indicator.close()
-      console.log('信息列表请求失败')
+    let _this = this
+    _this.userid = localStorage.getItem('userid')
+    // axios.get('/BaseManage/User/MobileEmailUserList?UserId=' + _this.userid + '', {}).then((response) => {
+    //   console.log('信息列表请求成功')
+    //   _this.list = this.geList(response.data)
+    // }).catch((response) => {
+    //   Indicator.close()
+    //   console.log('信息列表请求失败')
+    // })
+
+    ajaxMailList(_this.userid, function (data) {
+      console.log(data)
+      _this.list = _this.geList(data)
     })
   },
   methods: {
