@@ -12,7 +12,7 @@
       <router-link tag="li" to="/feedback">反馈问题  <img class="angle" src="../assets/images/angle.png"></router-link>
       <router-link tag="li" to="/about">关于我们  <img class="angle" src="../assets/images/angle.png"></router-link>
       <router-link tag="li" to="/version">当前版本 <img class="angle" src="../assets/images/angle.png"></router-link>
-      <router-link class="out" tag="li" to="/login">退出登录</router-link>
+      <li @click="removeLocalstorage" class="out" tag="li" to="/login">退出登录</li>
     </ul>
     <tab></tab>
   </div>
@@ -43,6 +43,13 @@ export default {
   },
   components: {
     'tab': tab
+  },
+  methods: {
+    removeLocalstorage: function () {
+      let _this = this
+      localStorage.removeItem('username')
+      _this.$router.push({path: '/login'})
+    }
   }
 }
 </script>

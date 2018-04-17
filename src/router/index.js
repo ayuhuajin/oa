@@ -218,7 +218,7 @@ const router = new Router({
       }
     },
     {
-      path: '/notice-detail',
+      path: '/notice-detail/:keyValue',
       name: 'noticeDetail',
       component: noticeDetail,
       meta: {

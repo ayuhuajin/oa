@@ -155,6 +155,27 @@ export function ajaxSendList (data, callback) {
 }
 
 /**
+ * 发文详情
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxSendDetail (data, callback) {
+  let params = {
+    keyValue: data
+  }
+
+  axios.get('/DocumentManage/Document/MobileGetFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('发文详情请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('发文详情请求失败')
+  })
+}
+
+/**
  * 发文审批列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
