@@ -99,7 +99,9 @@ export default {
       ajaxLogin(_this.params, function (data) {
         if (data.type === 1) {
           var userid = JSON.parse(data.resultdata.Content).userid
-          localStorage.setItem('username', userid)
+          var username = JSON.parse(data.resultdata.Content).username
+          localStorage.setItem('userid', userid)
+          localStorage.setItem('username', username)
           store.state.token = userid
           console.log(userid)
           alert('登陆成功')

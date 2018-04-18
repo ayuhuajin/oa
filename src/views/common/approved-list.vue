@@ -4,8 +4,8 @@
       <router-link to="/" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
-      <router-link to="/approved" slot="right">
-        <mt-button >创建</mt-button>
+      <router-link to="/send" slot="right">
+        <mt-button >新增</mt-button>
       </router-link>
     </mt-header>
     <div class="nav">
@@ -19,7 +19,7 @@
                     :auto-fill="false"
                     ref="loadmore">
         <ul>
-          <router-link tag="li" :to="{name:'approvedDetail', params:{keyValue:item.id}}" v-for="(item, index) in list" v-bind:key="index">
+          <router-link tag="li" :to="{name:'approvedDetail', query:{keyValue:item.documentid}}" v-for="(item, index) in list" v-bind:key="index">
             <div class="wrap">
               <div>
                 <div class="title">{{item.title}}</div>

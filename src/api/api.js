@@ -155,6 +155,39 @@ export function ajaxSendList (data, callback) {
 }
 
 /**
+ * 新建发文
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxSendAdd (keyValue, params, callback) {
+  axios.post('/DocumentManage/Document/MobileSaveForm', qs.stringify({
+    keyValue: keyValue,
+    DocumentNumber: params.documentnumber,
+    Urgency: params.urgency,
+    Limit: params.limit,
+    Content: params.content,
+    DocumentDate: params.documentdate,
+    Security: params.security,
+    Deadline: params.deadline,
+    According: params.according,
+    ProofDate: params.proofdate,
+    TypeDate: params.typedate,
+    FileNumber: params.filenumber,
+    PrintedNumber: params.printednumber,
+    Title: params.title,
+    MainSending: params.mainsending,
+    MainNumber: params.mainnumber,
+    Copy: params.copy
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('新建发文请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('新建发文请求失败')
+  })
+}
+
+/**
  * 发文详情
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
@@ -172,6 +205,81 @@ export function ajaxSendDetail (data, callback) {
   }).catch((response) => {
     Indicator.close()
     console.log('发文详情请求失败')
+  })
+}
+
+/**
+ * 发文编辑
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxSendEdit (keyValue, params, callback) {
+  axios.post('/DocumentManage/Document/MobileSaveForm', qs.stringify({
+    keyValue: keyValue,
+    DocumentNumber: params.documentnumber,
+    Urgency: params.urgency,
+    Limit: params.limit,
+    Content: params.content,
+    DocumentDate: params.documentdate,
+    Security: params.security,
+    Deadline: params.deadline,
+    According: params.according,
+    ProofDate: params.proofdate,
+    TypeDate: params.typedate,
+    FileNumber: params.filenumber,
+    PrintedNumber: params.printednumber,
+    Title: params.title,
+    MainSending: params.mainsending,
+    MainNumber: params.mainnumber,
+    Copy: params.copy
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('发文编辑请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('发文编辑请求失败')
+  })
+}
+
+/**
+ * 发文附件下载
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxSendDownload (data, callback) {
+  let params = {
+    keyValue: data
+  }
+
+  axios.get('/DocumentManage/Document/MobileGetDocumentFile', {
+    params: params
+  }).then((response) => {
+    console.log('发文附件下载请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('发文附件下载请求失败')
+  })
+}
+
+/**
+ * 发文签批进度
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxSendProcess (data, callback) {
+  let params = {
+    keyValue: data
+  }
+
+  axios.get('/DocumentManage/Document/MobileGetVerificationInfo', {
+    params: params
+  }, {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('发文签批进度请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('发文签批进度请求失败')
   })
 }
 
@@ -197,6 +305,47 @@ export function ajaxApprovedList (data, callback) {
   }).catch((response) => {
     Indicator.close()
     console.log('发文审批列表请求失败')
+  })
+}
+
+/**
+ * 发文审批详情
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxApprovedDetail (data, callback) {
+  let params = {
+    keyValue: data
+  }
+
+  axios.get('/DocumentManage/Document/MobileGetFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('发文审批详情请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('发文审批详情请求失败')
+  })
+}
+
+/**
+ * 签批上传
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxApporvedUpload (keyValue, processid, verificationData, params, callback) {
+  axios.post('/DocumentManage/Document/MobileSaveForm', qs.stringify({
+    keyValue: keyValue,
+    processId: processid,
+    verificationData: verificationData,
+    sign: params
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('签批上传请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('签批上传请求失败')
   })
 }
 /**
