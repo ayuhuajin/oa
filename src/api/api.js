@@ -263,7 +263,7 @@ export function ajaxSendDownload (data, callback) {
 }
 
 /**
- * 发文签批进度
+ * 发文签批进度节点
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
  */
@@ -275,11 +275,11 @@ export function ajaxSendProcess (data, callback) {
   axios.get('/DocumentManage/Document/MobileGetVerificationInfo', {
     params: params
   }, {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
-    console.log('发文签批进度请求成功')
+    console.log('发文签批进度节点请求成功')
     callback(response.data)
   }).catch((response) => {
     Indicator.close()
-    console.log('发文签批进度请求失败')
+    console.log('发文签批进度节点请求失败')
   })
 }
 
@@ -330,12 +330,12 @@ export function ajaxApprovedDetail (data, callback) {
 }
 
 /**
- * 签批上传
+ * 确认签批上传
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
  */
 export function ajaxApporvedUpload (keyValue, processid, verificationData, params, callback) {
-  axios.post('/DocumentManage/Document/MobileSaveForm', qs.stringify({
+  axios.post('/DocumentManage/Document/MobileVerification', qs.stringify({
     keyValue: keyValue,
     processId: processid,
     verificationData: verificationData,
