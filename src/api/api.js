@@ -262,8 +262,29 @@ export function ajaxSendDownload (data, callback) {
   })
 }
 
+// /**
+//  * 发文签批进度节点
+//  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+//  * @param {userNumber} accNbr - 子管理员帐号
+//  */
+// export function ajaxSendProcess (data, callback) {
+//   let params = {
+//     keyValue: data
+//   }
+
+//   axios.get('/DocumentManage/Document/MobileGetVerificationInfo', {
+//     params: params
+//   }, {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+//     console.log('发文签批进度节点请求成功')
+//     callback(response.data)
+//   }).catch((response) => {
+//     Indicator.close()
+//     console.log('发文签批进度节点请求失败')
+//   })
+// }
+
 /**
- * 发文签批进度节点
+ * 发文列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
  */
@@ -274,15 +295,14 @@ export function ajaxSendProcess (data, callback) {
 
   axios.get('/DocumentManage/Document/MobileGetVerificationInfo', {
     params: params
-  }, {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
-    console.log('发文签批进度节点请求成功')
+  }).then((response) => {
+    console.log('发文列表请求成功')
     callback(response.data)
   }).catch((response) => {
     Indicator.close()
-    console.log('发文签批进度节点请求失败')
+    console.log('发文列表请求失败')
   })
 }
-
 /**
  * 发文审批列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
