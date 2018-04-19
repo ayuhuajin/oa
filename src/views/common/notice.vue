@@ -6,7 +6,7 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="" slot="right">
-        <mt-button @click="submit">提交</mt-button>
+        <mt-button @click="submit">创建</mt-button>
       </router-link>
     </mt-header>
     <div class="wrap">
@@ -57,10 +57,10 @@ export default {
         FileIds: _this.FileIds,
         ReLeaseTime: _this.time
       }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
-        console.log('信息提交成功')
+        console.log('通知公告提交成功')
         this.$router.push({path: '/notice-list'})
       }).catch((resopnse) => {
-        console.log('信息提交失败')
+        console.log('通知公告提交失败')
       })
     },
     submitUpload () {

@@ -419,6 +419,27 @@ export function ajaxNoticeList (data, callback) {
 }
 
 /**
+ * 通知公告附件下载
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxNoticeDownload (data, callback) {
+  let params = {
+    keyValue: data
+  }
+
+  axios.get('/PublicInfoManage/Notice/MobileGetNoticeFile', {
+    params: params
+  }).then((response) => {
+    console.log('通知公告附件下载请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('通知公告附件下载请求失败')
+  })
+}
+
+/**
  * 短信群发列表
  * @param {object} loginUser - ;
  * @param {userNumber} accNbr - ;
@@ -443,6 +464,26 @@ export function ajaxMessageList (data, callback) {
   })
 }
 
+/**
+ * 短信群发获取树形结构
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMessageGetTreeList (userId, callback) {
+  let params = {
+    userId: userId
+  }
+
+  axios.get('/Department/GetTreeListJsonMobile', {
+    params: params
+  }).then((response) => {
+    console.log('短信群发获取树形结构请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('短信群发获取树形结构请求失败')
+  })
+}
 // ===============================【通用功能相关接口∧】===============================
 
 // ===============================【组织部相关接口∨】===============================

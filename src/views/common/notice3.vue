@@ -1,10 +1,15 @@
 <template>
   <div id="app1">
+    <el-input
+      placeholder="输入关键字进行过滤"
+      v-model="filterText">
+    </el-input>
     <el-tree
       :data="data2"
       show-checkbox
       node-key="id"
       ref="tree"
+      :filter-node-method="filterNode"
       :default-expanded-keys="[2, 3]"
       :default-checked-keys="[5]"
       :props="defaultProps">
@@ -54,6 +59,7 @@ export default {
   name: 'app1',
   data () {
     return {
+      filterText: '',
       data2: [],
       defaultProps: {
         children: 'children',
@@ -77,7 +83,11 @@ export default {
       console.log('获取请求失败')
     })
   },
-
+  watch: {
+    filterText (val) {
+      this.$refs.tree.filter(val)
+    }
+  },
   methods: {
     // element tree 组件
     getCheckedNodes () {
@@ -95,6 +105,10 @@ export default {
         }
       }
       return itemArr
+    },
+    filterNode (value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
     },
     // base64 上传组件
     save () {

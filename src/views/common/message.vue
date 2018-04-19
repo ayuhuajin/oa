@@ -6,25 +6,39 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="/message" slot="right">
-        <mt-button >提交</mt-button>
+        <mt-button >创建</mt-button>
       </router-link>
     </mt-header>
     <div>
       <h3>短信群发</h3>
-      <textarea placeholder="请输入短信内容" v-model="msg1"></textarea>
+      <textarea placeholder="请输入短信内容" v-model="messageContent"></textarea>
     </div>
   </div>
 </template>
 
 <script>
+import { ajaxMessageGetTreeList } from '../../api/api.js'
 export default {
   data () {
     return {
-      msg1: ''
+      messageContent: '',
+      userid: ''
     }
   },
   created: function () {
-    console.log(111)
+    let _this = this
+
+    _this.init()
+  },
+  methods: {
+    init () {
+      let _this = this
+
+      _this.userid = localStorage.getItem('userid')
+      ajaxMessageGetTreeList(_this.userid, function (data) {
+        console.log(data)
+      })
+    }
   }
 }
 </script>
