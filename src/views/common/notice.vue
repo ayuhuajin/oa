@@ -18,9 +18,11 @@
           ref="upload"
           :auto-upload="false"
           :file-list="fileList"
+          :on-change="handleChange"
           action="apis/PublicInfoManage/ResourceFile/MobileUploadifyFile/"
           :on-preview="handlePreview"
           :on-remove="handleRemove"
+          :on-success="handleSuccess"
           >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
@@ -41,7 +43,7 @@ export default {
       title: '',
       content: '',
       time: '2017-10-10',
-      FileIds: '',
+      FileIds: [],
       fileList: []
     }
   },
@@ -68,6 +70,14 @@ export default {
     },
     handleRemove (file, fileList) {
       console.log(file, fileList)
+    },
+    handleSuccess (response, file, fileList) {
+      console.log(response)
+    },
+    handleChange(file, fileList) {
+      // this.fileList3 = fileList.slice(-3);
+      console.log(file)
+      console.log(fileList)
     },
     handlePreview (file) {
       console.log(file)
