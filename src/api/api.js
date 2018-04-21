@@ -440,6 +440,24 @@ export function ajaxNoticeDownload (data, callback) {
 }
 
 /**
+ * 通知公告编辑
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxNoticeEdit (keyValue, NewsContent, callback) {
+  axios.post('/PublicInfoManage/Notice/SaveForm', qs.stringify({
+    keyValue: keyValue,
+    NewsContent: NewsContent
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('通知公告编辑请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('通知公告编辑请求失败')
+  })
+}
+
+/**
  * 短信群发列表
  * @param {object} loginUser - ;
  * @param {userNumber} accNbr - ;

@@ -6,12 +6,12 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="" slot="right">
-        <mt-button >修改</mt-button>
+        <mt-button @click="modify" >{{edit}}</mt-button>
       </router-link>
     </mt-header>
     <div>
       <h3>通知详情</h3>
-      <textarea placeholder="请输入短信内容" v-model="content.NewsContent"></textarea>
+      <textarea placeholder="请输入短信内容" v-model="content.NewsContent" :disabled="disabled"></textarea>
     </div>
     <div class="download">
       <p>附件下载:</p>
@@ -25,11 +25,13 @@
 <script>
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
-import { ajaxNoticeDownload } from '../../api/api.js'
+import { ajaxNoticeDownload, ajaxNoticeEdit } from '../../api/api.js'
 export default {
   name: 'noticeDetail',
   data () {
     return {
+      edit: '编辑',
+      disabled: true,
       content: '',
       keyValue: '',
       downloadUrl: []
@@ -54,6 +56,23 @@ export default {
         _this.downloadUrl = data
       }
     })
+  },
+  methods: {
+    modify () {
+      let _this = this
+
+      if (_this.edit === '编辑') {
+        _this.disabled = false
+        _this.edit = '提交'
+      } else {
+        ajaxNoticeEdit(_this.keyValue, _this.content.NewsContent, function (data) {
+          console.log(data)
+          _this.$router.push({path: '/notice-list'})
+        })
+        _this.disabled = true
+        _this.edit = '编辑'
+      }
+    }
   }
 }
 </script>
@@ -63,5 +82,9 @@ export default {
   .download{
     padding:5px 10px;
     border-top:1px solid #eee;
+  }
+  .download a {
+    display: block;
+    margin-top:5px;
   }
 </style>

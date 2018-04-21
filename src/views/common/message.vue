@@ -6,21 +6,27 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="/message" slot="right">
-        <mt-button >创建</mt-button>
+        <mt-button @click="toggle">创建</mt-button>
       </router-link>
     </mt-header>
     <div>
       <h3>短信群发</h3>
       <textarea placeholder="请输入短信内容" v-model="messageContent"></textarea>
     </div>
+    <oatree :showtree="show" @callback="treeCallback"></oatree>
   </div>
 </template>
 
 <script>
 import { ajaxMessageGetTreeList } from '../../api/api.js'
+import oatree from '../../components/oatree'
 export default {
+  components: {
+    oatree
+  },
   data () {
     return {
+      show: false,
       messageContent: '',
       userid: ''
     }
@@ -38,6 +44,16 @@ export default {
       ajaxMessageGetTreeList(_this.userid, function (data) {
         console.log(data)
       })
+    },
+    toggle () {
+      let _this = this
+
+      _this.show = true
+    },
+    treeCallback (data) {
+      let _this = this
+      _this.show = false
+      console.log(data)
     }
   }
 }

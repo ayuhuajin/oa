@@ -1,5 +1,13 @@
 <template>
-  <div id="app1">
+  <div class="oatree" v-show="showtree">
+    <mt-header fixed title="人员选择">
+      <router-link to="/message-list" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+      <router-link to="" slot="right">
+        <mt-button @click="getCheckedNodes">创建</mt-button>
+      </router-link>
+    </mt-header>
     <el-input
       placeholder="输入关键字进行过滤"
       v-model="filterText">
@@ -14,62 +22,29 @@
       :default-checked-keys="[5]"
       :props="defaultProps">
     </el-tree>
-    <el-button @click="getCheckedNodes">通过 key 获取</el-button>
-    <el-upload
-      class="upload-demo"
-      action="apis/PublicInfoManage/ResourceFile/MobileUploadifyFile/"
-      >
-      <el-button size="small" type="primary">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-    </el-upload>
-    <vueSignature ref="signature" :sigOption="option" :w="'100%'" :h="'200px'"></vueSignature>
-    <img v-bind:src="png">
-    <button @click="save">签名</button>
-    <button @click="clear">清除</button>
-    <button @click="clear">上传签名</button>
-
-    <div class="nav">
-      <mt-button size="small" @click.native.prevent="active = 'tab-container1'">tab 1</mt-button>
-      <mt-button size="small" @click.native.prevent="active = 'tab-container2'">tab 2</mt-button>
-      <mt-button size="small" @click.native.prevent="active = 'tab-container3'">tab 3</mt-button>
-    </div>
-    <div class="page-tab-container">
-      <mt-tab-container class="page-tabbar-tab-container" v-model="active" swipeable>
-        <mt-tab-container-item id="tab-container1">
-          <mt-cell v-for="(n, index) in 3" title="tab-container 1" :key="n.index">{{index}}</mt-cell>
-        </mt-tab-container-item>
-        <mt-tab-container-item id="tab-container2">
-          <mt-cell v-for="(n, index) in 5" title="tab-container 2" :key="n.index">{{index}}</mt-cell>
-        </mt-tab-container-item>
-        <mt-tab-container-item id="tab-container3">
-          <mt-cell v-for="(n, index) in 6" title="tab-container 3" :key="n.index">{{index}}</mt-cell>
-        </mt-tab-container-item>
-      </mt-tab-container>
-    </div>
-
+    <!-- <el-button @click="getCheckedNodes">通过 key 获取</el-button> -->
   </div>
 </template>
-
 <script>
-// import Vue from 'vue'
 import axios from 'axios'
-// import {Tree, Button} from 'element-ui'
-// Vue.use(Tree)
 export default {
-  name: 'app1',
+  props: {
+    showtree: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
+      // showTree: true,
+      msg: '树形',
       filterText: '',
       data2: [],
+      treeArr: [],
       defaultProps: {
         children: 'children',
         label: 'label'
-      },
-      png: '',
-      option: {
-        penColor: 'rgb(0, 0, 0)'
-      },
-      active: 'tab-container1'
+      }
     }
   },
   created: function () {
@@ -77,7 +52,7 @@ export default {
     // var userid = localStorage.getItem('userid')
     axios.get('/Department/GetTreeListJsonMobile?userId=fdf0dbec-82d6-442c-b0e4-be8dcfcafe0c', {}).then((response) => {
       console.log('获取请求成功')
-      var _this = this
+      let _this = this
       _this.data2 = _this.getJsonTree(response.data.rows, '0')
     }).catch((response) => {
       console.log('获取请求失败')
@@ -89,10 +64,11 @@ export default {
     }
   },
   methods: {
-    // element tree 组件
     getCheckedNodes () {
-      var arr = this.$refs.tree.getCheckedKeys()
-      console.log(arr)
+      let _this = this
+      _this.treeArr = _this.$refs.tree.getCheckedKeys()
+      console.log(_this.treeArr)
+      _this.$emit('callback', _this.treeArr)
     },
     getJsonTree: function (data, pId) {
       var itemArr = []
@@ -109,29 +85,26 @@ export default {
     filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
-    },
-    // base64 上传组件
-    save () {
-      var _this = this
-      setTimeout(function () {
-        console.log('878978978')
-        _this.png = _this.$refs.signature.save()
-      }, 30)
-      // var jpeg = _this.$refs.signature.save('image/jpeg')
-      // var svg = _this.$refs.signature.save('image/svg+xml');
-      console.log('6666')
-      // console.log(jpeg)
-      // console.log(svg)
-    },
-    clear () {
-      var _this = this
-      _this.$refs.signature.clear()
     }
   }
-
 }
 </script>
+
 <style lang="scss" >
+  .oatree{
+    position: absolute;
+    top: 45px;
+    background: white;
+    width: 100%;
+    height: 100%;
+    z-index:0;
+  }
+  .el-input__inner {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
 // element树形样式
   .el-tree-node__content {
     display: -webkit-box;
@@ -189,13 +162,4 @@ export default {
   .el-upload-list__item .el-icon-upload-success{
      top:20px;
   }
-  .el-upload-list__item:hover .el-icon-close{
-
-  }
-  .nav{
-    margin-top: 30px;
-  }
-  .page-tab-container{
-    margin-top: 5px;
-  }
-</style>
+  </style>

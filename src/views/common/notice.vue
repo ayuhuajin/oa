@@ -18,7 +18,6 @@
           ref="upload"
           :auto-upload="false"
           :file-list="fileList"
-          :on-change="handleChange"
           action="apis/PublicInfoManage/ResourceFile/MobileUploadifyFile/"
           :on-preview="handlePreview"
           :on-remove="handleRemove"
@@ -43,7 +42,7 @@ export default {
       title: '',
       content: '',
       time: '2017-10-10',
-      FileIds: [],
+      FileIds: '',
       fileList: []
     }
   },
@@ -72,12 +71,9 @@ export default {
       console.log(file, fileList)
     },
     handleSuccess (response, file, fileList) {
+      let _this = this
       console.log(response)
-    },
-    handleChange(file, fileList) {
-      // this.fileList3 = fileList.slice(-3);
-      console.log(file)
-      console.log(fileList)
+      _this.FileIds = _this.FileIds + response.fileid + ','
     },
     handlePreview (file) {
       console.log(file)
