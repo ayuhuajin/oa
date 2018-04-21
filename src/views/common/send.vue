@@ -15,18 +15,18 @@
       <mt-field label="内容描述：" placeholder="请输入内容描述" type="textarea" rows="4" v-model="list[0].content"></mt-field>
       <div class="inputPicker">
         <span>日期:</span>
-        <input type="text" readonly="" placeholder="请输入日期" @click='openPicker()' v-model='list[0].documentdate'>
+        <input type="text" readonly="" placeholder="请输入日期" @click='openPicker(1)' v-model='list[0].documentdate'>
       </div>
       <mt-field label="密级：" placeholder="请输入密级" v-model="list[0].security"></mt-field>
       <mt-field label="保密期限：" placeholder="请输入保密期限" v-model="list[0].deadline"></mt-field>
       <mt-field label="定密依据：" placeholder="请输入定密依据" v-model="list[0].according"></mt-field>
       <div class="inputPicker">
         <span>校对:</span>
-        <input type="text" readonly="" placeholder="请输入校对日期" @click='openPicker()' v-model='list[0].proofdate'>
+        <input type="text" readonly="" placeholder="请输入校对日期" @click='openPicker(2)' v-model='list[0].proofdate'>
       </div>
       <div class="inputPicker">
         <span>打字:</span>
-        <input type="text" readonly="" placeholder="请输入打字日期" @click='openPicker()' v-model='list[0].typedate'>
+        <input type="text" readonly="" placeholder="请输入打字日期" @click='openPicker(3)' v-model='list[0].typedate'>
       </div>
       <mt-field label="存档份数：" placeholder="请输入存档份数" v-model="list[0].filenumber"></mt-field>
       <mt-field label="共印份数：" placeholder="请输入共印份数" v-model="list[0].printednumber"></mt-field>
@@ -82,6 +82,7 @@ export default {
       disabled: true,
       FileIds: '',
       fileList: [],
+      chooseDate: '',
       list: [{
         documentnumber: '',
         urgency: '',
@@ -111,7 +112,7 @@ export default {
     pickerVisible: function (data) {
       let _this = this
 
-      _this.list[0].documentdate = moment(data).format('YYYY-MM-DD')
+      _this.list[0][_this.chooseDate] = moment(data).format('YYYY-MM-DD')
     }
   },
   methods: {
@@ -119,6 +120,10 @@ export default {
       let _this = this
 
       _this.pickerVisible = moment(new Date()).format('YYYY-MM-DD')
+      console.log(_this.pickerVisible)
+      _this.list[0].documentdate = _this.pickerVisible
+      _this.list[0].proofdate = _this.pickerVisible
+      _this.list[0].typedate = _this.pickerVisible
     },
     sendAdd () {
       let _this = this
@@ -127,8 +132,16 @@ export default {
         _this.$router.push({path: '/send-list'})
       })
     },
-    openPicker () {
+    openPicker (data) {
+      if (data === 1) {
+        this.chooseDate = 'documentdate'
+      } else if (data === 2) {
+        this.chooseDate = 'proofdate'
+      } else {
+        this.chooseDate = 'typedate'
+      }
       this.$refs.picker.open()
+      console.log(this.chooseDate)
     },
     handleConfirm (data) {
       let date = moment(data).format('YYYY-MM-DD')

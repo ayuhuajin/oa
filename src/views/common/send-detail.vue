@@ -15,18 +15,18 @@
       <mt-field label="内容描述：" placeholder="请输入内容描述" type="textarea" rows="4" v-model="list[0].content" :disabled="disabled"></mt-field>
       <div class="inputPicker">
         <span>日期:</span>
-        <input type="text" readonly="" placeholder="请输入日期" @click='openPicker()' v-model='list[0].documentdate' :disabled="disabled">
+        <input type="text" readonly="" placeholder="请输入日期" @click='openPicker(1)' v-model='list[0].documentdate' :disabled="disabled">
       </div>
       <mt-field label="密级：" placeholder="请输入密级" v-model="list[0].security" :disabled="disabled"></mt-field>
       <mt-field label="保密期限：" placeholder="请输入保密期限" v-model="list[0].deadline" :disabled="disabled"></mt-field>
       <mt-field label="定密依据：" placeholder="请输入定密依据" v-model="list[0].according" :disabled="disabled"></mt-field>
       <div class="inputPicker">
         <span>校对:</span>
-        <input type="text" readonly="" placeholder="请输入校对日期" @click='openPicker()' v-model='list[0].proofdate' :disabled="disabled">
+        <input type="text" readonly="" placeholder="请输入校对日期" @click='openPicker(2)' v-model='list[0].proofdate' :disabled="disabled">
       </div>
       <div class="inputPicker">
         <span>打字:</span>
-        <input type="text" readonly="" placeholder="请输入打字日期" @click='openPicker()' v-model='list[0].typedate' :disabled="disabled">
+        <input type="text" readonly="" placeholder="请输入打字日期" @click='openPicker(3)' v-model='list[0].typedate' :disabled="disabled">
       </div>
       <mt-field label="存档份数：" placeholder="请输入存档份数" v-model="list[0].filenumber" :disabled="disabled"></mt-field>
       <mt-field label="共印份数：" placeholder="请输入共印份数" v-model="list[0].printednumber" :disabled="disabled"></mt-field>
@@ -71,6 +71,7 @@ export default {
       endDate: new Date('2080-12-30'),
       disabled: true,
       downloadUrl: [],
+      chooseDate: '',
       list: [{
         documentnumber: '',
         urgency: '',
@@ -100,7 +101,7 @@ export default {
     pickerVisible: function (data) {
       let _this = this
 
-      _this.list[0].documentdate = moment(data).format('YYYY-MM-DD')
+      _this.list[0][_this.chooseDate] = moment(data).format('YYYY-MM-DD')
     }
   },
   methods: {
@@ -111,6 +112,9 @@ export default {
       _this.keyValue = _this.$route.query.keyValue
       ajaxSendDetail(_this.keyValue, function (data) {
         _this.list = data
+        _this.list[0].documentdate = moment(data[0].documentdate).format('YYYY-MM-DD')
+        _this.list[0].proofdate = moment(data[0].proofdate).format('YYYY-MM-DD')
+        _this.list[0].typedate = moment(data[0].typedate).format('YYYY-MM-DD')
       })
       ajaxSendDownload(_this.keyValue, function (data) {
         if (data.length === 0) {
@@ -138,7 +142,14 @@ export default {
         _this.edit = '编辑'
       }
     },
-    openPicker () {
+    openPicker (data) {
+      if (data === 1) {
+        this.chooseDate = 'documentdate'
+      } else if (data === 2) {
+        this.chooseDate = 'proofdate'
+      } else {
+        this.chooseDate = 'typedate'
+      }
       this.$refs.picker.open()
     },
     handleConfirm (data) {

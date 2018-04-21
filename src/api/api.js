@@ -502,6 +502,25 @@ export function ajaxMessageGetTreeList (userId, callback) {
     console.log('短信群发获取树形结构请求失败')
   })
 }
+
+/**
+ * 新增信息
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxAddMessage (data, callback) {
+  axios.post('/PublicInfoManage/Sms/MobileSaveForm?keyValue=', qs.stringify({
+    SmsContent: data.SmsContent,
+    UserList: data.UserList
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('登录请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('登录请求失败')
+  })
+}
+
 // ===============================【通用功能相关接口∧】===============================
 
 // ===============================【组织部相关接口∨】===============================

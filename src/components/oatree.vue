@@ -1,8 +1,8 @@
 <template>
   <div class="oatree" v-show="showtree">
     <mt-header fixed title="人员选择">
-      <router-link to="/message-list" slot="left">
-        <mt-button icon="back">返回</mt-button>
+      <router-link to="" slot="left">
+        <mt-button icon="back" @click="back">返回</mt-button>
       </router-link>
       <router-link to="" slot="right">
         <mt-button @click="getCheckedNodes">创建</mt-button>
@@ -85,6 +85,11 @@ export default {
     filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
+    },
+    back () {
+      let _this = this
+      _this.treeArr = []
+      _this.$emit('callback', _this.treeArr)
     }
   }
 }
@@ -97,7 +102,10 @@ export default {
     background: white;
     width: 100%;
     height: 100%;
-    z-index:0;
+    z-index:1;
+  }
+  .mint-header.is-fixed{
+    z-index: 1;
   }
   .el-input__inner {
     width: 90%;
