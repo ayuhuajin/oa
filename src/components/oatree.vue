@@ -40,7 +40,7 @@ export default {
       msg: '树形',
       filterText: '',
       data2: [],
-      treeArr: [],
+      treeArr: '',
       defaultProps: {
         children: 'children',
         label: 'label'

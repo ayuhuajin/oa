@@ -394,6 +394,71 @@ export function ajaxMeetingList (data, callback) {
 }
 
 /**
+ * 新建活动会议组织
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMeetingAdd (params, callback) {
+  axios.post('/PublicInfoManage/Conference/MobileSaveForm', qs.stringify({
+    keyValue: params.keyValue,
+    Title: params.Title,
+    Initiator: params.Initiator,
+    ClosingDate: params.ClosingDate,
+    MeetingContent: params.MeetingContent,
+    Custom: params.Custom,
+    Participant: params.Participant
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('新建活动会议组织请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('新建活动会议组织请求失败')
+  })
+}
+/**
+ * 活动会议组织详情
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMeetingDetail (keyValue, callback) {
+  let params = {
+    keyValue: keyValue
+  }
+
+  axios.get('/PublicInfoManage/Conference/GetMobileFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('活动会议组织详情请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('活动会议组织详情请求失败')
+  })
+}
+
+/**
+ * 编辑活动会议组织
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMeetingEdit (keyValue, params, callback) {
+  axios.post('/PublicInfoManage/Conference/MobileSaveForm', qs.stringify({
+    keyValue: keyValue,
+    Title: params.Title,
+    Initiator: params.Initiator,
+    ClosingDate: params.ClosingDate,
+    MeetingContent: params.MeetingContent,
+    Custom: params.Custom,
+    Participant: params.Participant
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('新建活动会议组织请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('新建活动会议组织请求失败')
+  })
+}
+/**
  * 通知公告列表
  * @param {object} loginUser - ;
  * @param {userNumber} accNbr - ;
