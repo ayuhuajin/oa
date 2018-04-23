@@ -284,7 +284,7 @@ export function ajaxSendDownload (data, callback) {
 // }
 
 /**
- * 发文列表
+ * 发文签批进度节点
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
  */
@@ -295,12 +295,12 @@ export function ajaxSendProcess (data, callback) {
 
   axios.get('/DocumentManage/Document/MobileGetVerificationInfo', {
     params: params
-  }).then((response) => {
-    console.log('发文列表请求成功')
+  }, {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('发文签批进度节点请求成功')
     callback(response.data)
   }).catch((response) => {
     Indicator.close()
-    console.log('发文列表请求失败')
+    console.log('发文签批进度节点请求失败')
   })
 }
 /**
@@ -456,6 +456,93 @@ export function ajaxMeetingEdit (keyValue, params, callback) {
   }).catch((response) => {
     Indicator.close()
     console.log('新建活动会议组织请求失败')
+  })
+}
+/**
+ * 活动会议组织参与者
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMeetingParticipantUser (data, callback) {
+  let params = {
+    keyValue: data.keyValue,
+    IsAttended: data.IsAttended
+  }
+
+  axios.get('/PublicInfoManage/Conference/GetMobileUserListJson', {
+    params: params
+  }).then((response) => {
+    console.log('活活动会议组织参与者请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('活动会议组织参与者请求失败')
+  })
+}
+
+/**
+ * 活动会议组织参与人员数量统计
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMeetingParticipantCount (data, callback) {
+  let params = {
+    keyValue: data.keyValue,
+    IsAttended: data.IsAttended
+  }
+
+  axios.get('/PublicInfoManage/Conference/GetMobileUserListCount', {
+    params: params
+  }).then((response) => {
+    console.log('活动会议组织参与人员数量统计请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('活动会议组织参与人员数量统计请求失败')
+  })
+}
+
+/**
+ * 活动会议组织自定义内容统计
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMeetingParticipantCustomCount (data, callback) {
+  let params = {
+    keyValue: data.keyValue,
+    custom: data.custom
+  }
+
+  axios.get('/PublicInfoManage/Conference/GetMobileCustomListCount', {
+    params: params
+  }).then((response) => {
+    console.log('活动会议组织自定义内容统计请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('活动会议组织自定义内容统计请求失败')
+  })
+}
+
+/**
+ * 活动会议组织自定义内容用户名单
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxMeetingParticipantCustomUser (data, callback) {
+  let params = {
+    keyValue: data.keyValue,
+    custom: data.custom
+  }
+
+  axios.get('/PublicInfoManage/Conference/GetMobileCustomList', {
+    params: params
+  }).then((response) => {
+    console.log('活动会议组织自定义内容用户名单请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('活动会议组织自定义内容用户名单请求失败')
   })
 }
 /**

@@ -32,6 +32,9 @@
         @click="showCustomList"
       >
       </mt-checklist>
+      <div>
+        <mt-button size="small" type="primary" @click="participantUser">参与者</mt-button><span>参与人数:</span>
+      </div>
       <mt-datetime-picker
         v-model="pickerVisible"
         type="date"
@@ -50,7 +53,7 @@
 
 <script>
 import moment from 'moment'
-import { ajaxMeetingDetail, ajaxMeetingEdit } from '../../api/api.js'
+import { ajaxMeetingDetail, ajaxMeetingEdit, ajaxMeetingParticipantUser, ajaxMeetingParticipantCustomCount, ajaxMeetingParticipantCustomUser, ajaxMeetingParticipantCount } from '../../api/api.js'
 export default {
   name: 'sendDetail',
   data () {
@@ -66,6 +69,10 @@ export default {
       downloadUrl: [],
       chooseDate: '',
       customList: [],
+      params: {
+        keyValue: '',
+        IsAttended: true
+      },
       list: {
         keyValue: '',
         Title: '',
@@ -95,9 +102,12 @@ export default {
   methods: {
     init: function () {
       let _this = this
-
+      _this.meetingParticipantCustomCount()
+      _this.meetingParticipantCustomUser()
+      _this.meetingParticipantCount()
       _this.pickerVisible = moment(new Date()).format('YYYY-MM-DD')
       _this.keyValue = _this.$route.query.keyValue
+      _this.params.keyValue = _this.$route.query.keyValue
       ajaxMeetingDetail(_this.keyValue, function (data) {
         _this.list = data
         _this.customList = data.Custom.split(',')
@@ -133,6 +143,35 @@ export default {
       alert(111)
       let _this = this
       console.log(_this.customList)
+    },
+    participantUser () {
+      let _this = this
+      ajaxMeetingParticipantUser(_this.params, function (data) {
+        console.log(data)
+      })
+    },
+    meetingParticipantCustomCount () {
+      let _this = this
+
+      ajaxMeetingParticipantCustomCount(_this.list, function (data) {
+        console.log('ajaxMeetingParticipantCustomCount')
+        console.log(data)
+      })
+    },
+    meetingParticipantCustomUser () {
+      let _this = this
+      ajaxMeetingParticipantCustomUser(_this.list, function (data) {
+        console.log('ajaxMeetingParticipantCustomUser')
+        console.log(data)
+      })
+    },
+    meetingParticipantCount () {
+      let _this = this
+      _this.params.keyValue = _this.$route.query.keyValue
+      ajaxMeetingParticipantCount(_this.params, function (data) {
+        console.log('ajaxMeetingParticipantCustomUser')
+        console.log(data)
+      })
     }
   }
 }
