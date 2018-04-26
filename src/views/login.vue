@@ -104,7 +104,7 @@ export default {
           localStorage.setItem('username', username)
           store.state.token = userid
           console.log(userid)
-          alert('登陆成功')
+          console.log('登陆成功')
           // 全局路由使用方法
           _this.$router.push({path: '/'})
           // this.$router.push({path: '/index', query: { plan: 'private' }})

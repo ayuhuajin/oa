@@ -719,6 +719,110 @@ export function ajaxResearchList (data, callback) {
 }
 
 /**
+ * 调研课题详情
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxSearchDetail (data, callback) {
+  let params = {
+    keyValue: data
+  }
+
+  axios.get('/SubjectManage/Subject/GetMobileFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('调研课题详情请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('调研课题详情请求失败')
+  })
+}
+
+/**
+ * 调研课题编辑
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxSearchEdit (keyValue, data, callback) {
+  axios.post('/SubjectManage/Subject/MobileSaveForm', qs.stringify({
+    keyValue: keyValue,
+    Theme: data.Theme,
+    Description: data.Description,
+    ClosingDate: data.ClosingDate,
+    SubmissionDeadline: data.SubmissionDeadline
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('调研课题编辑请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('调研课题编辑请求失败')
+  })
+}
+/**
+ * 调研课题附件下载
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxResearchDownload (data, callback) {
+  let params = {
+    keyValues: data
+  }
+
+  axios.get('/PublicInfoManage/ResourceFile/MobileGetFileListFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('调研课题附件下载请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('调研课题附件下载请求失败')
+  })
+}
+
+/**
+ * 调研课题附件回复上传
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxResearchReplayUpload (SubjectId, fileIds, callback) {
+  axios.post('/SubjectManage/SubjectReport/MobileSaveForm?keyValue=', qs.stringify({
+    SubjectId: SubjectId,
+    Enclosure: fileIds
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('调研课题附件回复上传请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('调研课题附件回复上传请求失败')
+  })
+}
+/**
+ * 调研课题附件回复列表下载
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxResearchReplayListDownload (data, queryJson, callback) {
+  let params = {
+    rows: data.rows || 10000,
+    page: data.row || 1,
+    sidx: 'SubjectId',
+    sord: data.sord || 'desc',
+    queryJson: queryJson
+  }
+
+  axios.get('/SubjectManage/SubjectReport/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('调研课题附件回复列表下载请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('调研课题附件回复列表下载请求失败')
+  })
+}
+
+/**
  * 提案工作列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号

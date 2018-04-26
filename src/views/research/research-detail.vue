@@ -9,16 +9,43 @@
       </router-link>
     </mt-header>
     <div class="content-wrap">
-      <mt-field label="主题：" placeholder="请输入主题" v-model="list.Title" :disabled="disabled"></mt-field>
-      <mt-field label="内容描述：" placeholder="请输入内容描述" type="textarea" rows="4" v-model="list.MeetingContent" :disabled="disabled"></mt-field>
-      <mt-field label="发起人：" placeholder="请输入发起人" v-model="list.Initiator" :disabled="disabled"></mt-field>
+      <mt-field label="主题：" placeholder="请输入主题" v-model="list.Theme" :disabled="disabled"></mt-field>
+      <mt-field label="内容描述：" placeholder="请输入内容描述" type="textarea" rows="4" v-model="list.Description" :disabled="disabled"></mt-field>
       <div class="inputPicker">
         <span>反馈截止时间:</span>
-        <input type="text" readonly="" placeholder="请输入校对日期" @click='openPicker' v-model='list.ClosingDate' :disabled="disabled">
+        <input type="text" readonly="" placeholder="请输入反馈截止时间" @click='openPicker(1)' v-model='list.ClosingDate' :disabled="disabled">
       </div>
       <div class="inputPicker">
         <span>课题报告提交截止时间:</span>
-        <input type="text" readonly="" placeholder="请输入校对日期" @click='openPicker' v-model='list.ClosingDate' :disabled="disabled">
+        <input type="text" readonly="" placeholder="请输入课题报告提交截止时间" @click='openPicker(2)' v-model='list.SubmissionDeadline' :disabled="disabled">
+      </div>
+      <div class="download">
+        <p>附件下载:</p>
+        <a v-for="(url, index) in downloadUrl" :href="'/apis/PublicInfoManage/ResourceFile/MobileDownloadFile?keyValue='+ url.FileId" :key="url.FileId">
+          {{index + 1}} . {{url.FileName}}
+        </a>
+      </div>
+      <div class="download">
+        <p>回复列表:</p>
+        <!-- <a v-for="(replayurl, index) in replayList" :href="'/apis/PublicInfoManage/ResourceFile/MobileDownloadFile?keyValue='+ replayurl.FileId" :key="replayurl.BaseSubjectId">
+          {{index + 1}} . {{url.FileName}}
+        </a> -->
+      </div>
+      <div class="upload">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          :auto-upload="false"
+          :file-list="fileList"
+          action="apis/PublicInfoManage/ResourceFile/MobileUploadifyFile/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :on-success="handleSuccess"
+          >
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <div slot="tip" class="el-upload__tip"  @click="submitUpload">文件不能超过5MB</div>
+        </el-upload>
       </div>
       <mt-datetime-picker
         v-model="pickerVisible"
@@ -38,34 +65,30 @@
 
 <script>
 import moment from 'moment'
-import { ajaxMeetingDetail, ajaxMeetingEdit, ajaxMeetingParticipantUser, ajaxMeetingParticipantCustomCount, ajaxMeetingParticipantCustomUser, ajaxMeetingParticipantCount } from '../../api/api.js'
+import {ajaxSearchDetail, ajaxSearchEdit, ajaxResearchDownload, ajaxResearchReplayUpload, ajaxResearchReplayListDownload} from '../../api/api.js'
 export default {
   name: 'sendDetail',
   data () {
     return {
       msg: '发文详情',
       edit: '编辑',
-      temp: [],
       keyValue: '',
       pickerVisible: '',
       startDate: new Date('1970-01-01'),
       endDate: new Date('2080-12-30'),
-      disabled: false,
+      disabled: true,
       downloadUrl: [],
       chooseDate: '',
-      customList: [],
-      params: {
-        keyValue: '',
-        IsAttended: true
-      },
+      FileIds: '',
+      fileList: [],
+      replayList: [],
       list: {
         keyValue: '',
-        Title: '',
-        Initiator: '',
+        Theme: '',
+        Description: '',
         ClosingDate: '',
-        MeetingContent: '',
-        Custom: '',
-        Participant: ''
+        SubmissionDeadline: '',
+        Enclosure: ''
       }
     }
   },
@@ -78,27 +101,57 @@ export default {
     pickerVisible: function (data) {
       let _this = this
 
-      _this.list.ClosingDate = moment(data).format('YYYY-MM-DD')
-    },
-    list: function (newl, oldl) {
-      console.log(newl, oldl)
+      _this.list[_this.chooseDate] = moment(data).format('YYYY-MM-DD')
     }
   },
   methods: {
     init: function () {
       let _this = this
-      _this.meetingParticipantCustomCount()
-      _this.meetingParticipantCustomUser()
-      _this.meetingParticipantCount()
       _this.pickerVisible = moment(new Date()).format('YYYY-MM-DD')
       _this.keyValue = _this.$route.query.keyValue
-      _this.params.keyValue = _this.$route.query.keyValue
-      ajaxMeetingDetail(_this.keyValue, function (data) {
+      ajaxSearchDetail(_this.keyValue, function (data) {
         _this.list = data
-        _this.customList = data.Custom.split(',')
-        console.log(_this.customList)
-        _this.temp = JSON.parse(JSON.stringify(_this.customList))
         _this.list.ClosingDate = moment(_this.list.ClosingDate).format('YYYY-MM-DD')
+        _this.list.SubmissionDeadline = moment(_this.list.SubmissionDeadline).format('YYYY-MM-DD')
+        _this.getResearchDownload()
+        _this.getResearchReplayListDownload()
+      })
+    },
+    getResearchReplayListDownload: function () {
+      let _this = this
+      let sid = ''
+      let cUserId
+      if (_this.list.ParentId === null) {
+        sid = _this.list.SubjectId
+      } else {
+        sid = _this.list.ParentId
+      }
+      let userid = localStorage.getItem('userid')
+      if (userid === _this.list.CreateUserId) {
+        cUserId = ''
+      } else {
+        cUserId = userid
+      }
+      let queryJson = JSON.stringify({'UserId': cUserId, 'SubjectId': sid})
+      ajaxResearchReplayListDownload(_this.list, queryJson, function (data) {
+        console.log('----------回复附件----------')
+        _this.replayList = data.rows
+      })
+    },
+    getResearchDownload: function () {
+      let _this = this
+      ajaxResearchDownload(_this.list.Enclosure, function (data) {
+        if (data.length === 0) {
+          _this.downloadUrl = [{FileName: '暂无附件可下载'}]
+        } else {
+          _this.downloadUrl = data
+        }
+      })
+    },
+    uploadstart: function () {
+      let _this = this
+      ajaxResearchReplayUpload(_this.list.SubjectId, _this.FileIds, function () {
+        console.log('上传保存')
       })
     },
     modify () {
@@ -108,15 +161,21 @@ export default {
         _this.disabled = false
         _this.edit = '提交'
       } else {
-        ajaxMeetingEdit(_this.keyValue, _this.list, function (data) {
+        ajaxSearchEdit(_this.keyValue, _this.list, function (data) {
           console.log(data)
-          _this.$router.push({path: '/meeting-list'})
+          _this.$router.push({path: '/research-list'})
         })
         _this.disabled = true
         _this.edit = '编辑'
       }
     },
     openPicker (data) {
+      // 根据data 判断打开哪个picker
+      if (data === 1) {
+        this.chooseDate = 'ClosingDate'
+      } else if (data === 2) {
+        this.chooseDate = 'SubmissionDeadline'
+      }
       this.$refs.picker.open()
     },
     handleConfirm (data) {
@@ -124,39 +183,20 @@ export default {
       console.log(date)
       this.pickerVisible = date
     },
-    showCustomList () {
-      alert(111)
-      let _this = this
-      console.log(_this.customList)
+    submitUpload () {
+      this.$refs.upload.submit()
     },
-    participantUser () {
-      let _this = this
-      ajaxMeetingParticipantUser(_this.params, function (data) {
-        console.log(data)
-      })
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
     },
-    meetingParticipantCustomCount () {
+    handleSuccess (response, file, fileList) {
       let _this = this
-
-      ajaxMeetingParticipantCustomCount(_this.list, function (data) {
-        console.log('ajaxMeetingParticipantCustomCount')
-        console.log(data)
-      })
+      console.log(response)
+      _this.FileIds = _this.FileIds + response.fileid + ','
+      _this.uploadstart()
     },
-    meetingParticipantCustomUser () {
-      let _this = this
-      ajaxMeetingParticipantCustomUser(_this.list, function (data) {
-        console.log('ajaxMeetingParticipantCustomUser')
-        console.log(data)
-      })
-    },
-    meetingParticipantCount () {
-      let _this = this
-      _this.params.keyValue = _this.$route.query.keyValue
-      ajaxMeetingParticipantCount(_this.params, function (data) {
-        console.log('ajaxMeetingParticipantCustomUser')
-        console.log(data)
-      })
+    handlePreview (file) {
+      console.log(file)
     }
   }
 }
@@ -206,4 +246,63 @@ export default {
     outline:none;
     line-height:40px;
   }
+  .download{
+    padding:5px 10px;
+    border-top:1px solid #eee;
+  }
+</style>
+<style>
+.el-upload-list {
+  margin: 0;
+  padding: 20px 0;
+  list-style: none;
+  background: white;
+}
+.el-upload__tip,.el-button{
+  margin-left: 15px;
+}
+.el-button{
+  margin-top: 15px;
+}
+.el-upload-list__item .el-icon-close{
+  display: inline;
+}
+.el-upload-list__item.is-success .el-icon-close{
+  display: none;
+}
+.el-upload-list__item-name{
+  line-height: 40px;
+  font-size: 16px;
+}
+.el-icon-circle-check:before,.el-icon-close:before {
+  font-size: 18px;
+}
+
+.el-upload-list__item-status-label,.el-upload-list__item .el-icon-close{
+  top: 10px;
+}
+.el-upload-list__item{
+  border-top:1px solid #ddd;
+  border-bottom:1px solid #ddd;
+}
+.el-upload-list__item .el-progress{
+  top:30px;
+}
+.el-progress_text{
+  color: red;
+}
+.el-upload-list__item .el-progress__text {
+  position: absolute;
+  right: 25px;
+  top: -15px;
+}
+.el-progress-bar__inner{
+  margin-top: 0;
+}
+.el-upload-list__item .el-icon-upload-success{
+  top:20px;
+}
+.el-icon-close-tip{
+  display: none;
+}
 </style>
