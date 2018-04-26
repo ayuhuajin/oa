@@ -73,7 +73,13 @@ export default {
     handleSuccess (response, file, fileList) {
       let _this = this
       console.log(response)
-      _this.FileIds = _this.FileIds + response.fileid + ','
+      for (var i = 0; i < fileList.length; i++) {
+        if (i < fileList.length - 1) {
+          _this.FileIds = _this.FileIds + response.fileid + ','
+        } else {
+          _this.FileIds = _this.FileIds + response.fileid
+        }
+      }
     },
     handlePreview (file) {
       console.log(file)

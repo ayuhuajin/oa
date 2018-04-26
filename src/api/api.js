@@ -717,7 +717,28 @@ export function ajaxResearchList (data, callback) {
     console.log('调研课题列表请求失败')
   })
 }
-
+/**
+ * 调研课题创建
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxResearchAdd (data, callback) {
+  axios.post('/SubjectManage/Subject/MobileSaveForm', qs.stringify({
+    keyValue: data.keyValue,
+    Theme: data.Theme,
+    Description: data.Description,
+    Enclosure: data.Enclosure,
+    ClosingDate: data.ClosingDate,
+    SubmissionDeadline: data.SubmissionDeadline,
+    NotifyObject: data.NotifyObject
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('调研课题创建请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('调研课题创建请求失败')
+  })
+}
 /**
  * 调研课题详情
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
@@ -844,6 +865,28 @@ export function ajaxProposalList (data, callback) {
   }).catch((response) => {
     Indicator.close()
     console.log('提案工作列表请求失败')
+  })
+}
+
+/**
+ * 提案工作创建
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxProposalAdd (data, callback) {
+  axios.post('/ProposalManage/Proposal/MobileSaveForm', qs.stringify({
+    keyValue: data.keyValue,
+    Theme: data.Theme,
+    Description: data.Description,
+    Enclosure: data.Enclosure,
+    ClosingDate: data.ClosingDate,
+    NotifyObject: data.NotifyObject
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('提案工作创建请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('提案工作创建请求失败')
   })
 }
 
