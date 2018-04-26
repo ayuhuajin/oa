@@ -940,6 +940,28 @@ export function ajaxManuscriptsList (data, callback) {
 }
 
 /**
+ * 约稿创建
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxManuscriptsAdd (data, callback) {
+  axios.post('/ReservationManage/Reservation/MobileSaveForm', qs.stringify({
+    keyValue: data.keyValue,
+    Theme: data.Theme,
+    Description: data.Description,
+    Enclosure: data.Enclosure,
+    CreateTime: data.CreateTime,
+    ClosingDate: data.ClosingDate,
+    NotifyObject: data.NotifyObject
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('约稿创建请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('约稿创建请求失败')
+  })
+}
+/**
  * 信息报送列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号

@@ -5,7 +5,7 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="/proposal" slot="right">
-        <mt-button >创建</mt-button>
+        <mt-button >新增</mt-button>
       </router-link>
     </mt-header>
 
