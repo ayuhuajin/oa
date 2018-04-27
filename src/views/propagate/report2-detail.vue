@@ -24,7 +24,7 @@ import {ajaxReportDetail, ajaxReportDownload, ajaxReportEdit} from '../../api/ap
 export default {
   name: 'app',
   // 点击之后，会把传过来的keyvalue 消掉，所以 用一个keyvalue 存keyvalue值
-    data () {
+  data () {
     return {
       msg: '宣传报送',
       edit: '编辑',
