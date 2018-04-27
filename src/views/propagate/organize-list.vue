@@ -18,17 +18,17 @@
             <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell>
           </li> -->
           <div class="nav">
-            <router-link class="green" tag="a" to="/score-list">个人积分列表</router-link>
-            <router-link tag="a" to="/organize-list">组织积分列表</router-link>
+            <router-link tag="a" to="/score-list">个人积分列表</router-link>
+            <router-link class="green" tag="a" to="/organize-list">组织积分列表</router-link>
           </div>
           <div class="ranking title">
-            <span>姓名</span>
+            <span>部门</span>
             <span>分数</span>
           </div>
-          <router-link tag="li" :to="{name:'score',query:{keyValue:item.UserId}}" v-for="(item, index) in list" v-bind:key="index">
+          <router-link tag="li" to="" v-for="(item, index) in list" v-bind:key="index">
             <!-- <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell> -->
             <div class="ranking">
-              <span>{{item.UserName}}</span>
+              <span>{{item.FullName}}</span>
               <span>{{item.Score}}</span>
             </div>
           </router-link>
@@ -54,7 +54,7 @@ export default {
   created: function () {
     var _this = this
     var pageNum = 1
-    axios.get('/ReservationManage/ReservationReportIntegra/GetMobilePageListJson?rows=30&page=' + pageNum + '&sidx=Score&sord=desc&queryJson={}', {}).then((response) => {
+    axios.get('/ReservationManage/ReservationReportIntegra/GetDepartmentIntegralPageList?rows=30&page=' + pageNum + '&sidx=Score&sord=desc&queryJson={}', {}).then((response) => {
       console.log('信息列表请求成功')
       _this.list = response.data.rows
     }).catch((response) => {

@@ -30,8 +30,9 @@
 <script>
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
+// import qs from 'qs'
 export default {
-  name: 'addressList',
+  name: 'score',
   data () {
     return {
       msg: '通讯录',
@@ -43,10 +44,22 @@ export default {
   },
   created: function () {
     var _this = this
-    var userid = localStorage.getItem('userid')
-    axios.get('/BaseManage/User/MobileEmailUserList?UserId=' + userid + '', {}).then((response) => {
+    // var userid = localStorage.getItem('userid')
+    _this.keyValue = _this.$route.query.keyValue
+    let params = {
+      page: 1,
+      rows: 30,
+      sidx: 'Score',
+      sord: 'desc',
+      queryJson: {
+        UserId: _this.keyValue
+      }
+    }
+    axios.get('/ReservationManage/ReservationReportIntegra/GetMobileUserIntegralPageListJson', {
+      params: params
+    }).then((response) => {
       console.log('信息列表请求成功')
-      _this.list = response.data
+      _this.list = response.data.rows
     }).catch((response) => {
       Indicator.close()
       console.log('信息列表请求失败')

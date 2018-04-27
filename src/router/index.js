@@ -42,6 +42,7 @@ import manuscripts from '@/views/propagate/manuscripts'
 import manuscriptsList from '@/views/propagate/manuscripts-list'
 import manuscriptsDetail from '@/views/propagate/manuscripts-detail'
 import scoreList from '@/views/propagate/score-list'
+import organizeList from '@/views/propagate/organize-list'
 import score from '@/views/propagate/score'
 
 import myInfo from '@/views/info/my-info'
@@ -389,6 +390,14 @@ const router = new Router({
       path: '/score-list',
       name: 'scoreList',
       component: scoreList,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/organize-list',
+      name: 'organizeList',
+      component: organizeList,
       meta: {
         requireAuth: true
       }
