@@ -844,6 +844,27 @@ export function ajaxResearchReplayListDownload (data, queryJson, callback) {
 }
 
 /**
+ * 调研课题回复下载列表展示
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxResearchReplayDownloadListShow (data, callback) {
+  let params = {
+    keyValues: data
+  }
+
+  axios.get('/PublicInfoManage/ResourceFile/MobileGetFileListFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('调研课题回复下载列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('调研课题回复下载列表请求失败')
+  })
+}
+
+/**
  * 提案工作列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号

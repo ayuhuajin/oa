@@ -27,9 +27,9 @@
       </div>
       <div class="download">
         <p>回复列表:</p>
-        <!-- <a v-for="(replayurl, index) in replayList" :href="'/apis/PublicInfoManage/ResourceFile/MobileDownloadFile?keyValue='+ replayurl.FileId" :key="replayurl.BaseSubjectId">
-          {{index + 1}} . {{url.FileName}}
-        </a> -->
+        <a v-for="(replayurl, index) in replayList" :href="'/apis/PublicInfoManage/ResourceFile/MobileDownloadFile?keyValue='+ replayurl.FileId" :key="replayurl.BaseSubjectId">
+          {{index + 1}} . {{replayurl.FileName}}
+        </a>
       </div>
       <div class="upload">
         <el-upload
@@ -65,7 +65,7 @@
 
 <script>
 import moment from 'moment'
-import {ajaxSearchDetail, ajaxSearchEdit, ajaxResearchDownload, ajaxResearchReplayUpload, ajaxResearchReplayListDownload} from '../../api/api.js'
+import {ajaxSearchDetail, ajaxSearchEdit, ajaxResearchDownload, ajaxResearchReplayUpload, ajaxResearchReplayListDownload, ajaxResearchReplayDownloadListShow} from '../../api/api.js'
 export default {
   name: 'sendDetail',
   data () {
@@ -80,6 +80,7 @@ export default {
       downloadUrl: [],
       chooseDate: '',
       FileIds: '',
+      Enclosure: '',
       fileList: [],
       replayList: [],
       list: {
@@ -119,12 +120,12 @@ export default {
     },
     getResearchReplayListDownload: function () {
       let _this = this
-      let sid = ''
-      let cUserId
+      let SubjectId = ''
+      let cUserId = ''
       if (_this.list.ParentId === null) {
-        sid = _this.list.SubjectId
+        SubjectId = _this.list.SubjectId
       } else {
-        sid = _this.list.ParentId
+        SubjectId = _this.list.ParentId
       }
       let userid = localStorage.getItem('userid')
       if (userid === _this.list.CreateUserId) {
@@ -132,10 +133,28 @@ export default {
       } else {
         cUserId = userid
       }
-      let queryJson = JSON.stringify({'UserId': cUserId, 'SubjectId': sid})
+      let queryJson = JSON.stringify({'UserId': cUserId, 'SubjectId': SubjectId})
       ajaxResearchReplayListDownload(_this.list, queryJson, function (data) {
         console.log('----------回复附件----------')
-        _this.replayList = data.rows
+        // _this.replayList = data.rows
+        // console.log(data.rows)
+        for (let i = 0; i < data.rows.length; i++) {
+          if (data.rows[i].Enclosure) {
+            if (i < data.rows.length - 1) {
+              _this.Enclosure += data.rows[i].Enclosure
+            } else {
+              _this.Enclosure += data.rows[i].Enclosure
+            }
+          }
+        }
+        _this.Enclosure = _this.Enclosure.substring(0, _this.Enclosure.length - 1)
+        ajaxResearchReplayDownloadListShow(_this.Enclosure, function (data) {
+          console.log('---_this.Enclosure--')
+          _this.replayList = data
+          console.log(data)
+        })
+        console.log('-----------_this.Enclosure----------')
+        console.log(_this.Enclosure)
       })
     },
     getResearchDownload: function () {
@@ -250,6 +269,10 @@ export default {
     padding:5px 10px;
     border-top:1px solid #eee;
   }
+  .download a {
+    display: block;
+  }
+
 </style>
 <style>
 .el-upload-list {
