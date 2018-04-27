@@ -1137,3 +1137,21 @@ export function ajaxLoginOut (callback) {
     console.log('退出登录请求失败')
   })
 }
+
+/**
+ * 修改密码
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxModifyPassword (data, callback) {
+  axios.post('/PersonCenter/MobileResetPassword', {
+    password: data.newPassword,
+    oldPassword: data.oldPassword
+  }, {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('修改密码请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('修改密码请求失败')
+  })
+}
