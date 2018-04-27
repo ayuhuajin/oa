@@ -5,6 +5,7 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
+    <div style="margin-top:80px;text-align:center;margin-bottom:60px;">厦门民盟OA</div>
     <div class="content">{{msg}}</div>
   </div>
 </template>
@@ -14,7 +15,7 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: '关于我们'
+      msg: '技术支持：福州信诺通信息技术有限公司'
     }
   }
 }

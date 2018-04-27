@@ -14,7 +14,7 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: '当前版本:V3.15'
+      msg: '当前版本:V3.16'
     }
   }
 }

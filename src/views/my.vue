@@ -9,7 +9,7 @@
       </li>
       <router-link tag="li" to="/my-info">个人信息修改 <img class="angle" src="../assets/images/angle.png"></router-link>
       <router-link tag="li" to="/modify">修改密码  <img class="angle" src="../assets/images/angle.png"></router-link>
-      <router-link tag="li" to="/feedback">反馈问题  <img class="angle" src="../assets/images/angle.png"></router-link>
+      <!-- <router-link tag="li" to="/feedback">反馈问题  <img class="angle" src="../assets/images/angle.png"></router-link> -->
       <router-link tag="li" to="/about">关于我们  <img class="angle" src="../assets/images/angle.png"></router-link>
       <router-link tag="li" to="/version">当前版本 <img class="angle" src="../assets/images/angle.png"></router-link>
       <li @click="removeLocalstorage" class="out" tag="li" to="/login">退出登录</li>
@@ -22,17 +22,21 @@
 import axios from 'axios'
 import { Indicator } from 'mint-ui'
 import tab from './tab.vue'
+import {ajaxLoginOut} from '../api/api.js'
 export default {
   name: 'my',
   data () {
     return {
       msg: '我的',
-      list: {}
+      list: {
+        Account: '',
+        ConferenceType: ''
+      }
     }
   },
   mounted: function () {
     var _this = this
-    var userid = localStorage.getItem('username')
+    var userid = localStorage.getItem('userid')
     axios.get('/BaseManage/User/MobileGetFormJson?keyValue=' + userid + '', {}).then((response) => {
       console.log('信息列表请求成功')
       _this.list = response.data
@@ -47,7 +51,10 @@ export default {
   methods: {
     removeLocalstorage: function () {
       let _this = this
-      localStorage.removeItem('username')
+      localStorage.removeItem('userid')
+      ajaxLoginOut(function (data) {
+        _this.$router.push({path: '/login'})
+      })
       _this.$router.push({path: '/login'})
     }
   }

@@ -1122,3 +1122,18 @@ export function ajaxPersonScoreList (data, callback) {
   })
 }
 // ===============================【宣传部相关接口∨】===============================
+
+/**
+ * 退出登录
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxLoginOut (callback) {
+  axios.post('/Login/MobileOutLogin', {}, {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('退出登录请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('退出登录请求失败')
+  })
+}
