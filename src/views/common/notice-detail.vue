@@ -39,7 +39,7 @@ export default {
   },
   created: function () {
     var _this = this
-    axios.get('/PublicInfoManage/Notice/GetFormJson?keyValue=' + this.$route.params.keyValue + '', {}).then((response) => {
+    axios.get('/PublicInfoManage/Notice/GetFormJson?keyValue=' + this.$route.query.keyValue + '', {}).then((response) => {
       console.log('通知公告详情请求成功')
       console.log(response)
       _this.content = response.data
@@ -48,7 +48,7 @@ export default {
       console.log('通知公告详情请求失败')
     })
 
-    _this.keyValue = _this.$route.params.keyValue
+    _this.keyValue = _this.$route.query.keyValue
     ajaxNoticeDownload(_this.keyValue, function (data) {
       if (data.length === 0) {
         _this.downloadUrl = [{FileName: '暂无附件可下载'}]

@@ -5,7 +5,7 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="/report2" slot="right">
-        <mt-button >创建</mt-button>
+        <mt-button >新增</mt-button>
       </router-link>
     </mt-header>
 
@@ -16,7 +16,7 @@
                     :auto-fill="false"
                     ref="loadmore">
         <ul>
-          <router-link tag="li" :to="{name:'report2Detail', params:{keyValue:item.ReservationReportId}}" v-for="(item, index) in list" v-bind:key="index">
+          <router-link tag="li" :to="{name:'report2Detail', query:{keyValue:item.ReservationReportId}}" v-for="(item, index) in list" v-bind:key="index">
             <div class="wrap">
               <div>
                 <div class="title">{{item.Theme}}</div>

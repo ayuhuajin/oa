@@ -1012,4 +1012,89 @@ export function ajaxPropagateReportList (data, callback) {
     console.log('宣传报送列表请求失败')
   })
 }
+
+/**
+ * 信息/宣传报送创建
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxReportAdd (data, callback) {
+  axios.post('/ReservationManage/ReservationReport/MobileSaveForm', qs.stringify({
+    keyValue: data.keyValue,
+    Theme: data.Theme,
+    Description: data.Description,
+    Enclosure: data.Enclosure,
+    Type: data.Type
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('信息/宣传报送创建请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('信息/宣传报送创建请求失败')
+  })
+}
+
+/**
+ * 信息/宣传报送详情
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxReportDetail (keyValue, callback) {
+  let params = {
+    keyValue: keyValue
+  }
+
+  axios.get('/ReservationManage/ReservationReport/GetMobileFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('信息/宣传报送详情请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('信息/宣传报送详情请求失败')
+  })
+}
+
+/**
+ * 信息报送附件下载
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxReportDownload (keyValues, callback) {
+  let params = {
+    keyValues: keyValues
+  }
+
+  axios.get('/PublicInfoManage/ResourceFile/MobileGetFileListFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('信息/宣传报送详情请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('信息/宣传报送详情请求失败')
+  })
+}
+
+/**
+ * 编辑信息报告
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxReportEdit (keyValue, data, callback) {
+  axios.post('/ReservationManage/ReservationReport/MobileSaveForm', qs.stringify({
+    keyValue: keyValue,
+    Theme: data.Theme,
+    Description: data.Description,
+    Enclosure: data.Enclosure,
+    Type: data.Type
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('编辑信息报告请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('编辑信息报告请求失败')
+  })
+}
+
 // ===============================【宣传部相关接口∨】===============================
