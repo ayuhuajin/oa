@@ -5,6 +5,9 @@
           <mt-button icon="back">返回</mt-button>
         </router-link>
       </mt-header>
+      <div>
+        <input type="text" class="search" v-model="searchString" placeholder="请输入姓名进行搜索" style="margin-top:60px;"/>
+      </div>
       <mt-loadmore  v-infinite-scroll="loadMore"
                     infinite-scroll-disabled="loading"
                     infinite-scroll-distance="9"
@@ -14,7 +17,7 @@
                     :auto-fill="true"
                     ref="loadmore">
         <ul>
-          <li v-for="(item, index) in list" v-bind:key="item.id" v-if="index < limit">
+          <li v-for="(item, index) in filterlist" v-bind:key="item.id" v-if="index < limit">
             <!-- <mt-cell v-bind:index="index" v-bind:title="item.UserName">{{index}}</mt-cell> -->
             <div class="wrap">
               <div>
@@ -40,6 +43,7 @@ export default {
   data () {
     return {
       phone: '暂无',
+      searchString: '',
       list: '',
       keyValue: '',
       allLoaded: false,
@@ -55,6 +59,27 @@ export default {
       Indicator.close()
       console.log('通讯录请求失败')
     })
+  },
+  computed: {
+    filterlist: function () {
+      let _this = this
+      let filterArray = _this.list
+      let searchString = _this.searchString
+
+      if (!searchString) {
+        _this.arr = filterArray
+        return filterArray
+      }
+      searchString = searchString.trim()
+
+      filterArray = filterArray.filter(function (item) {
+        if (item.UserName.indexOf(searchString) !== -1) {
+          return item
+        }
+      })
+      _this.arr = filterArray
+      return filterArray
+    }
   },
   mounted () {
     console.log('6666666666')
@@ -95,7 +120,7 @@ export default {
 
 <style scoped>
   ul{
-    padding:40px 0 55px;
+    padding:10px 0 55px;
   }
   .wrap{
   display: flex;
@@ -108,5 +133,15 @@ export default {
   .title{
     font-size: 16px;
     color:#333;
+  }
+  .search{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    line-height: 35px;
   }
 </style>
