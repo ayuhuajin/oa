@@ -5,6 +5,9 @@
           <mt-button icon="back">返回</mt-button>
         </router-link>
       </mt-header>
+      <div>
+        <input type="text" class="search" v-model="searchString" placeholder="请输入姓名进行搜索" style="margin-top:60px;"/>
+      </div>
       <mt-loadmore  v-infinite-scroll="loadMore"
                     infinite-scroll-disabled="loading"
                     infinite-scroll-distance="9"
@@ -14,7 +17,7 @@
                     :auto-fill="true"
                     ref="loadmore">
         <ul>
-          <li v-for="(item, index) in list" @click="toggle(index)" v-bind:key="item.id" v-if="index < limit">
+          <li v-for="(item, index) in filerlist" @click="toggle(index)" v-bind:key="item.id" v-if="index < limit">
             <div class="wrap">
               <div class="wrap-inner">
                 <div class="title">
@@ -43,14 +46,37 @@ export default {
   data () {
     return {
       phone: '暂无',
+      searchString: '',
       list: {},
       keyValue: '',
       allLoaded: false,
       limit: 30,
-      userid: ''
+      userid: '',
+      arr: ''
     }
   },
   created: function () {
+  },
+  computed: {
+    filerlist: function () {
+      let _this = this
+      let filterArray = _this.list
+      let searchString = _this.searchString
+
+      if (!searchString) {
+        _this.arr = filterArray
+        return filterArray
+      }
+      searchString = searchString.trim()
+
+      filterArray = filterArray.filter(function (item) {
+        if (item.UserName.indexOf(searchString) !== -1) {
+          return item
+        }
+      })
+      _this.arr = filterArray
+      return filterArray
+    }
   },
   mounted: function () {
     let _this = this
@@ -78,9 +104,9 @@ export default {
       return mapLIst
     },
     toggle: function (index) {
-      console.log(this.list[index].iconClass)
-      this.list[index].iconClass = !this.list[index].iconClass
-      // this.$set(this.list[index], 'iconClass', !(this.list[index].iconClass));
+      console.log(this.arr[index].iconClass)
+      // this.list[index].iconClass = !this.list[index].iconClass
+      this.$set(this.arr[index], 'iconClass', !(this.arr[index].iconClass))
     },
     loadTop () {
       // 加载更多数据
@@ -109,7 +135,7 @@ export default {
 
 <style scoped>
   ul{
-    padding:40px 0 55px;
+    padding:10px 0 55px;
   }
   .wrap{
   display: flex;
@@ -139,5 +165,15 @@ export default {
   }
   .toggle-angle{
     transform: rotate(-90deg);
+  }
+  .search{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    line-height: 35px;
   }
 </style>
