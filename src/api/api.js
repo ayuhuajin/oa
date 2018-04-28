@@ -890,6 +890,48 @@ export function ajaxProposalList (data, callback) {
 }
 
 /**
+ * 提案工作详情
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxProposalDetail (data, callback) {
+  let params = {
+    keyValue: data
+  }
+
+  axios.get('/ProposalManage/Proposal/GetMobileFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('提案工作详情请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('提案工作详情请求失败')
+  })
+}
+
+/**
+ * 提案工作编辑
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxProposalEdit (keyValue, data, callback) {
+  axios.post('/ProposalManage/Proposal/MobileSaveForm', qs.stringify({
+    keyValue: keyValue,
+    Theme: data.Theme,
+    Description: data.Description,
+    ClosingDate: data.ClosingDate,
+    SubmissionDeadline: data.SubmissionDeadline
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('提案工作编辑请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('提案工作编辑请求失败')
+  })
+}
+
+/**
  * 提案工作创建
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号
@@ -908,6 +950,91 @@ export function ajaxProposalAdd (data, callback) {
   }).catch((response) => {
     Indicator.close()
     console.log('提案工作创建请求失败')
+  })
+}
+
+/**
+ * 提案工作附件下载
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxProposalDownload (data, callback) {
+  let params = {
+    keyValues: data
+  }
+
+  axios.get('/PublicInfoManage/ResourceFile/MobileGetFileListFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('提案工作附件下载请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('提案工作附件下载请求失败')
+  })
+}
+
+/**
+ * 提案工作附件回复上传
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxProposalReplayUpload (ProposalId, fileIds, callback) {
+  axios.post('/ProposalManage/ProposalFeedback/MobileSaveForm?keyValue=', qs.stringify({
+    ProposalId: ProposalId,
+    Enclosure: fileIds
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('提案工作附件回复上传请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('提案工作附件回复上传请求失败')
+  })
+}
+
+/**
+ * 提案工作附件回复列表下载
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxProposalReplayListDownload (data, queryJson, callback) {
+  let params = {
+    rows: data.rows || 10000,
+    page: data.row || 1,
+    sidx: 'ProposalId',
+    sord: data.sord || 'desc',
+    queryJson: queryJson
+  }
+
+  axios.get('/ProposalManage/ProposalFeedback/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('提案工作附件回复列表下载请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('提案工作附件回复列表下载请求失败')
+  })
+}
+
+/**
+ * 提案工作回复下载列表展示
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxProposalReplayDownloadListShow (data, callback) {
+  let params = {
+    keyValues: data
+  }
+
+  axios.get('/PublicInfoManage/ResourceFile/MobileGetFileListFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('提案工作回复下载列表展示请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('提案工作回复下载列表展示请求失败')
   })
 }
 

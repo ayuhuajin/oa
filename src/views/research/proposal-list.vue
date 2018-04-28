@@ -16,7 +16,7 @@
                     :auto-fill="false"
                     ref="loadmore">
         <ul>
-          <router-link tag="li" :to="{name:'proposalDetail', params:{keyValue:item.ProposalId}}" v-for="(item, index) in list" v-bind:key="index">
+          <router-link tag="li" :to="{name:'proposalDetail', query:{keyValue:item.ProposalId}}" v-for="(item, index) in list" v-bind:key="index">
             <div class="wrap">
               <div>
                 <div class="title">{{item.Theme}}</div>
