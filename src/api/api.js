@@ -1153,6 +1153,45 @@ export function ajaxManuscriptsDetail (data, callback) {
     console.log('约稿详情请求失败')
   })
 }
+
+/**
+ * 约稿附件下载
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxManuscriptsDownload (data, callback) {
+  let params = {
+    keyValues: data
+  }
+
+  axios.get('/PublicInfoManage/ResourceFile/MobileGetFileListFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('约稿附件下载请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('约稿附件下载请求失败')
+  })
+}
+
+/**
+ * 约稿附件回复上传
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxManuscriptsReplayUpload (ReservationId, fileIds, callback) {
+  axios.post('/ReservationManage/ReservationReport/MobileSaveForm?keyValue=', qs.stringify({
+    ReservationId: ReservationId,
+    Enclosure: fileIds
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('约稿附件回复上传请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('约稿附件回复上传请求失败')
+  })
+}
 /**
  * 信息报送列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;

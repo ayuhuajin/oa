@@ -19,18 +19,19 @@
         <span>截止时间:</span>
         <input type="text" readonly="" placeholder="请输入截止时间" @click='openPicker(1)' v-model='list.ClosingDate' :disabled="disabled">
       </div>
-      <!-- <div class="download">
+      <div class="download">
         <p>附件下载:</p>
         <a v-for="(url, index) in downloadUrl" :href="'/apis/PublicInfoManage/ResourceFile/MobileDownloadFile?keyValue='+ url.FileId" :key="url.FileId">
           {{index + 1}} . {{url.FileName}}
         </a>
       </div>
+      <!--
       <div class="download">
         <p>回复列表:</p>
         <a v-for="(replayurl, index) in replayList" :href="'/apis/PublicInfoManage/ResourceFile/MobileDownloadFile?keyValue='+ replayurl.FileId" :key="replayurl.index">
           {{index + 1}} . {{replayurl.FileName}}
         </a>
-      </div>
+      </div> -->
       <div class="upload">
         <el-upload
           class="upload-demo"
@@ -46,7 +47,7 @@
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
           <div slot="tip" class="el-upload__tip"  @click="submitUpload">文件不能超过5MB</div>
         </el-upload>
-      </div> -->
+      </div>
       <mt-datetime-picker
         v-model="pickerVisible"
         type="date"
@@ -65,7 +66,7 @@
 
 <script>
 import moment from 'moment'
-import {ajaxManuscriptsDetail, ajaxManuscriptsEdit} from '../../api/api.js'
+import {ajaxManuscriptsDetail, ajaxManuscriptsEdit, ajaxManuscriptsDownload, ajaxManuscriptsReplayUpload} from '../../api/api.js'
 export default {
   name: 'manuscriptsDetail',
   data () {
@@ -75,6 +76,9 @@ export default {
       disabled: true,
       keyValue: '',
       chooseDate: '',
+      downloadUrl: [],
+      fileList: [],
+      Enclosure: '',
       list: {
         keyValue: '',
         Theme: '',
@@ -111,8 +115,19 @@ export default {
         _this.list = data
         _this.list.ClosingDate = moment(_this.list.ClosingDate).format('YYYY-MM-DD')
         _this.list.CreateDate = moment(_this.list.CreateDate).format('YYYY-MM-DD')
-        // _this.getProposalDownload()
+        _this.getManuscriptsDownload()
         // _this.getProposalReplayListDownload()
+      })
+    },
+    getManuscriptsDownload: function () {
+      let _this = this
+
+      ajaxManuscriptsDownload(_this.list.Enclosure, function (data) {
+        if (data.length === 0) {
+          _this.downloadUrl = [{FileName: '暂无附件可下载'}]
+        } else {
+          _this.downloadUrl = data
+        }
       })
     },
     modify: function () {
@@ -143,6 +158,34 @@ export default {
       let date = moment(data).format('YYYY-MM-DD')
       console.log(date)
       this.pickerVisible = date
+    },
+    uploadstart: function () {
+      let _this = this
+      ajaxManuscriptsReplayUpload(_this.list.ReservationId, _this.Enclosure, function () {
+        console.log('上传保存')
+      })
+    },
+    submitUpload () {
+      this.$refs.upload.submit()
+    },
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    handleSuccess (response, file, fileList) {
+      let _this = this
+      console.log(response)
+      // for (var i = 0; i < fileList.length; i++) {
+      //   if (i < fileList.length - 1) {
+      //     _this.Enclosure = _this.Enclosure + response.fileid + ','
+      //   } else {
+      //     _this.Enclosure = _this.Enclosure + response.fileid
+      //   }
+      // }
+      _this.Enclosure = _this.Enclosure + response.fileid + ','
+      _this.uploadstart()
+    },
+    handlePreview (file) {
+      console.log(file)
     }
   }
 }
