@@ -1109,6 +1109,50 @@ export function ajaxManuscriptsAdd (data, callback) {
     console.log('约稿创建请求失败')
   })
 }
+
+/**
+ * 约稿编辑
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxManuscriptsEdit (keyValue, data, callback) {
+  axios.post('/ReservationManage/Reservation/MobileSaveForm', qs.stringify({
+    keyValue: keyValue,
+    Theme: data.Theme,
+    Description: data.Description,
+    Enclosure: data.Enclosure,
+    CreateTime: data.CreateDate,
+    ClosingDate: data.ClosingDate,
+    NotifyObject: data.NotifyObject
+  }), {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then((response) => {
+    console.log('约稿编辑请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('约稿编辑请求失败')
+  })
+}
+
+/**
+ * 约稿详情
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxManuscriptsDetail (data, callback) {
+  let params = {
+    keyValue: data
+  }
+
+  axios.get('/ReservationManage/Reservation/GetMobileFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('约稿详情请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('约稿详情请求失败')
+  })
+}
 /**
  * 信息报送列表
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;

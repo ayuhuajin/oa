@@ -13,11 +13,11 @@
       <mt-field label="内容描述：" placeholder="请输入内容描述" type="textarea" rows="4" v-model="list.Description" :disabled="disabled"></mt-field>
       <div class="inputPicker">
         <span>截止时间:</span>
-        <input type="text" readonly="" placeholder="请输入反馈截止时间" @click='openPicker(1)' v-model='list.ClosingDate' :disabled="disabled">
+        <input type="text" readonly="" placeholder="请输入截止时间" @click='openPicker(1)' v-model='list.ClosingDate' :disabled="disabled">
       </div>
       <div class="inputPicker">
         <span>创建时间:</span>
-        <input type="text" readonly="" placeholder="请输入课题报告提交截止时间" @click='openPicker(2)' v-model='list.CreateDate' :disabled="disabled">
+        <input type="text" readonly="" placeholder="请输入创建时间" @click='openPicker(2)' v-model='list.CreateDate' :disabled="disabled">
       </div>
       <div class="download">
         <p>附件下载:</p>
@@ -78,6 +78,7 @@ export default {
       fileList: [],
       keyValue: '',
       Enclosure: '',
+      chooseDate: '',
       pickerVisible: '',
       startDate: new Date('1970-01-01'),
       endDate: new Date('2080-12-30'),
