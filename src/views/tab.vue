@@ -12,7 +12,8 @@
             </router-link>
         </mt-tab-item>
         <mt-tab-item id="待办">
-            <router-link to="/toDo" tag="li">
+            <router-link to="/toDo" tag="li" style="position:relative">
+              <span v-show="toDoCount>0" style="position:absolute;color:white;background:red;padding:3px;border-radius:50%;top:-5px;width:20px;height:20px;">{{toDoCount}}</span>
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-daiban"></use>
               </svg>
@@ -42,12 +43,25 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { Indicator } from 'mint-ui'
 export default {
   name: 'index',
   data () {
     return {
-      msg: '首页'
+      msg: '首页',
+      toDoCount: ''
     }
+  },
+  mounted: function () {
+    axios.get('/PublicInfoManage/BackLog/GetMobilePageListConut', {}).then((response) => {
+      let _this = this
+      _this.toDoCount = response.data.total
+      console.log('待办事项总数请求成功')
+    }).catch((response) => {
+      Indicator.close()
+      console.log('待办事项总数请求失败')
+    })
   }
 }
 </script>

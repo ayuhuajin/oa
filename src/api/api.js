@@ -1386,3 +1386,28 @@ export function ajaxModifyPassword (data, callback) {
     console.log('修改密码请求失败')
   })
 }
+
+/**
+ * 待办列表
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxToDoList (data, callback) {
+  let params = {
+    page: data.page,
+    rows: data.rows,
+    sidx: data.sidx,
+    sord: data.sord,
+    queryJson: data.queryJson
+  }
+
+  axios.get('/PublicInfoManage/BackLog/GetMobilePageListJson', {
+    params: params
+  }).then((response) => {
+    console.log('待办列表请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('待办列表请求失败')
+  })
+}

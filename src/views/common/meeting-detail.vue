@@ -36,7 +36,7 @@
         <mt-button size="small" type="primary" @click="participantUser">参与者</mt-button>
         <span class="total-count">参与人数:{{count}}</span>
         <div>{{participant}}</div>
-        <div v-for="(item, index) in customParticipant" :key="item.index">{{item.name}}:{{item.users.length}}人 {{item.users}}</div>
+        <div v-for="(item, index) in customParticipant" :key="item.index">{{index}} {{item.name}}:{{item.users.length}}人 {{item.users}}</div>
       </div>
       <mt-datetime-picker
         v-model="pickerVisible"
