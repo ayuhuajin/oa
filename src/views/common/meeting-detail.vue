@@ -32,8 +32,11 @@
         @click="showCustomList"
       >
       </mt-checklist>
-      <div>
-        <mt-button size="small" type="primary" @click="participantUser">参与者</mt-button><span>参与人数:</span>
+      <div class="statistics">
+        <mt-button size="small" type="primary" @click="participantUser">参与者</mt-button>
+        <span class="total-count">参与人数:{{count}}</span>
+        <div>{{participant}}</div>
+        <div v-for="(item, index) in customParticipant" :key="item.index">{{item.name}}:{{item.users.length}}人 {{item.users}}</div>
       </div>
       <mt-datetime-picker
         v-model="pickerVisible"
@@ -60,7 +63,10 @@ export default {
     return {
       msg: '发文详情',
       edit: '编辑',
+      participant: '',
+      customParticipant: [],
       temp: [],
+      count: '',
       keyValue: '',
       pickerVisible: '',
       startDate: new Date('1970-01-01'),
@@ -102,18 +108,20 @@ export default {
   methods: {
     init: function () {
       let _this = this
-      _this.meetingParticipantCustomCount()
-      _this.meetingParticipantCustomUser()
       _this.meetingParticipantCount()
       _this.pickerVisible = moment(new Date()).format('YYYY-MM-DD')
       _this.keyValue = _this.$route.query.keyValue
+      _this.list.keyValue = _this.$route.query.keyValue
       _this.params.keyValue = _this.$route.query.keyValue
       ajaxMeetingDetail(_this.keyValue, function (data) {
         _this.list = data
         _this.customList = data.Custom.split(',')
+        _this.list.Custom = data.Custom
         console.log(_this.customList)
         _this.temp = JSON.parse(JSON.stringify(_this.customList))
         _this.list.ClosingDate = moment(_this.list.ClosingDate).format('YYYY-MM-DD')
+        _this.meetingParticipantCustomCount()
+        _this.meetingParticipantCustomUser()
       })
     },
     modify () {
@@ -146,8 +154,17 @@ export default {
     },
     participantUser () {
       let _this = this
+      _this.participant = ''
       ajaxMeetingParticipantUser(_this.params, function (data) {
         console.log(data)
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].IsAttended === true) {
+            _this.participant += data[i].RealName + ','
+          }
+        }
+        if (_this.participant === '') {
+          _this.participant = '暂时无人参加'
+        }
       })
     },
     meetingParticipantCustomCount () {
@@ -162,7 +179,7 @@ export default {
       let _this = this
       ajaxMeetingParticipantCustomUser(_this.list, function (data) {
         console.log('ajaxMeetingParticipantCustomUser')
-        console.log(data)
+        _this.customParticipant = data
       })
     },
     meetingParticipantCount () {
@@ -171,6 +188,7 @@ export default {
       ajaxMeetingParticipantCount(_this.params, function (data) {
         console.log('ajaxMeetingParticipantCustomUser')
         console.log(data)
+        _this.count = data.count
       })
     }
   }
@@ -210,8 +228,14 @@ export default {
     box-sizing: border-box;
     color: white;
   }
+  .total-count{
+    margin-left:5px;
+  }
   .custom-wrap{
     padding:2% 3%;
+  }
+  .statistics{
+    padding:10px 15px;
   }
   .Custom{
     width:98%;

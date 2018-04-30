@@ -509,8 +509,8 @@ export function ajaxMeetingParticipantCount (data, callback) {
  */
 export function ajaxMeetingParticipantCustomCount (data, callback) {
   let params = {
-    keyValue: data.keyValue,
-    custom: data.custom
+    keyValue: data.ConferenceId,
+    custom: data.Custom
   }
 
   axios.get('/PublicInfoManage/Conference/GetMobileCustomListCount', {
@@ -531,8 +531,8 @@ export function ajaxMeetingParticipantCustomCount (data, callback) {
  */
 export function ajaxMeetingParticipantCustomUser (data, callback) {
   let params = {
-    keyValue: data.keyValue,
-    custom: data.custom
+    keyValue: data.ConferenceId,
+    custom: data.Custom
   }
 
   axios.get('/PublicInfoManage/Conference/GetMobileCustomList', {
