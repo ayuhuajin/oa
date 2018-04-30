@@ -58,7 +58,7 @@
 
 <script>
 import moment from 'moment'
-import { ajaxSendDetail, ajaxSendEdit, ajaxSendDownload, ajaxSendProcess } from '../../api/api.js'
+import { ajaxSendDetail, ajaxSendEdit, ajaxSendDownload } from '../../api/api.js'
 export default {
   name: 'sendDetail',
   data () {
@@ -123,9 +123,9 @@ export default {
           _this.downloadUrl = data
         }
       })
-      ajaxSendProcess(_this.keyValue, function (data) {
-        console.log(data)
-      })
+      // ajaxSendProcess(_this.keyValue, function (data) {
+      //   console.log(data)
+      // })
     },
     modify () {
       let _this = this
