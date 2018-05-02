@@ -1355,6 +1355,26 @@ export function ajaxPersonScoreList (data, callback) {
 // ===============================【宣传部相关接口∨】===============================
 
 /**
+ * 权限设置
+ * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
+ * @param {userNumber} accNbr - 子管理员帐号
+ */
+export function ajaxAuthority (keyValue, callback) {
+  let params = {
+    keyValue: keyValue
+  }
+  axios.get('/BaseManage/User/MobileGetFormJson', {
+    params: params
+  }).then((response) => {
+    console.log('权限设置请求成功')
+    callback(response.data)
+  }).catch((response) => {
+    Indicator.close()
+    console.log('权限设置请求失败')
+  })
+}
+
+/**
  * 退出登录
  * @param {object} loginUser - 登录用户信息LOGINUSER = loginUser;
  * @param {userNumber} accNbr - 子管理员帐号

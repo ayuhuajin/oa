@@ -71,7 +71,7 @@
           <img src="../assets/images/icon01.png">
           <p>宣传报送</p>
         </router-link>
-        <router-link to="./score-list" tag="li">
+        <router-link v-show="pinfen" to="./score-list" tag="li">
           <img src="../assets/images/icon01.png">
           <p>评分系统</p>
         </router-link>
@@ -84,12 +84,33 @@
 <script>
 import tab from './tab.vue'
 import store from '@/store/store'
+import { ajaxAuthority } from '../api/api.js'
 export default {
   name: 'index',
   data () {
     return {
-      msg: '首页'
+      msg: '首页',
+      pinfen: false
     }
+  },
+  created: function () {
+    let keyValue = localStorage.getItem('userid')
+    let _this = this
+
+    ajaxAuthority(keyValue, function (data) {
+      console.log(data)
+      let DepartmentID = data.DepartmentId
+      if ((DepartmentID !== 'd4009e25-23b0-44cf-9622-70021a87a436') && // 组织部
+        (DepartmentID !== '88089ca3-02a5-4905-b14f-ee486b0d9ce4') && // 宣传部
+        (DepartmentID !== '4451c3c1-efdb-44f4-a017-0b1f98ed1c14') && // 办公室
+        (DepartmentID !== '99f44f8e-5928-4584-baf8-f11dd4936117') && // 调研部
+        (DepartmentID !== 'f821ccdd-e14d-46ee-afae-dea75f951114')) { // 机关
+        console.log('权限')
+      }
+      if (DepartmentID === '88089ca3-02a5-4905-b14f-ee486b0d9ce4') { // 宣传部展示评分
+        _this.pinfen = true
+      }
+    })
   },
   components: {
     'tab': tab
