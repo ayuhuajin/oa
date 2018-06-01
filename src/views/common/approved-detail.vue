@@ -41,16 +41,20 @@
         {{index + 1}} . {{url.FileName}}
       </a>
     </div>
-    <mt-button size="small" type="primary" @click="sign(1)">签批</mt-button>
-    <mt-button size="small" type="danger"  @click="sign(2)">不同意</mt-button>
-    <mt-button size="small" type="default"  @click="sign(3)">驳回</mt-button>
+    <div  class="approved-button">
+      <mt-button size="small" type="primary" @click="sign(1)">签批</mt-button>
+      <mt-button size="small" type="danger"  @click="sign(2)">不同意</mt-button>
+      <mt-button size="small" type="default"  @click="sign(3)">驳回</mt-button>
+    </div>
 
     <!-- 签名组件 -->
-    <vueSignature ref="signature" :sigOption="option" :w="'100%'" :h="'200px'"></vueSignature>
-    <img v-bind:src="png">
-    <button @click="save">签名</button>
-    <button @click="clear">清除</button>
-    <button @click="uploadSignature">上传签名</button>
+    <div v-if="signature" class="signature">
+      <vueSignature ref="signature" :sigOption="option" :w="'100%'" :h="'200px'"></vueSignature>
+      <img v-bind:src="png">
+      <mt-button size="small" type="default"  @click="save">签名</mt-button>
+      <mt-button size="small" type="default"  @click="clear">清除</mt-button>
+      <mt-button size="small" type="default"  @click="uploadSignature">上传签名</mt-button>
+    </div>
   </div>
 </template>
 
@@ -63,6 +67,7 @@ export default {
     return {
       msg: '发文详情',
       edit: '签批',
+      signature: false,
       keyValue: '',
       pickerVisible: '',
       startDate: new Date('1970-01-01'),
@@ -138,7 +143,9 @@ export default {
     },
     sign: function (index) {
       let _this = this
-
+      if (index === 1) {
+        _this.signature = true
+      }
       _this.VerificationFinally = index
     },
     approve: function () {
@@ -184,6 +191,12 @@ export default {
 <style lang="scss">
   .mint-field-core{
     background: white;
+  }
+  .approved-button{
+    padding:10px 15px;
+  }
+  .signature{
+    padding: 10px 5px;
   }
 </style>
 
